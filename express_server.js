@@ -11,6 +11,12 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+
+
+app.get("/u/:shortURL", (req, res) => {
+  res.redirect(urlDatabase[req.params.shortURL]);
+});
+
 app.get("/", (req, res) => {
   res.send("Hello!");
 });
