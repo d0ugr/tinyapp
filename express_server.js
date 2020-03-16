@@ -29,8 +29,9 @@ app.get("/urls/new", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
-  console.log(req.body);  // Log the POST request body to the console
-  res.send("Ok");         // Respond with 'Ok' (we will replace this)
+  console.log(req.body);
+  urlDatabase[generateRandomString(6)] = req.body.longURL;
+  res.send(urlDatabase);
 });
 
 app.get("/urls/:shortURL", (req, res) => {
@@ -41,3 +42,19 @@ app.get("/urls/:shortURL", (req, res) => {
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
+
+
+
+const ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+const generateRandomString = function(length) {
+
+  let result = "";
+
+  for (let i = 0; i < length; i++) {
+    result += ALPHANUMERIC[Math.floor(Math.random() * ALPHANUMERIC.length)];
+  }
+
+  return result;
+
+};
