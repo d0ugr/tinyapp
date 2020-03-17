@@ -6,7 +6,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 const ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-const PORT = 8080; // default port 8080
+const PORT = 7734;
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -30,7 +30,7 @@ const generateRandomString = function(length) {
 
 
 app.listen(PORT, () => {
-  console.log(`TinyApp listening on port ${PORT}!`);
+  console.log(`TinyApp listening on port ${PORT}`);
 });
 
 
@@ -39,11 +39,11 @@ app.listen(PORT, () => {
 
 app.get("/u/:shortURL", (req, res) => {
   res.redirect(urlDatabase[req.params.shortURL]);
-});  
+});
 
 app.get("/", (req, res) => {
   res.send("Hello!");
-});  
+});
 
 app.get("/urls", (req, res) => {
   let templateVars = { urls: urlDatabase };
