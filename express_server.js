@@ -66,7 +66,6 @@ app.get("/urls/:shortURL", (req, res) => {
 });
 
 app.post("/urls/:shortURL/update", (req, res) => {
-  console.log(req.body);
   urlDatabase[req.params.shortURL] = req.body.newURL;
   res.redirect("/urls");
 });
