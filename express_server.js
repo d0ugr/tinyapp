@@ -55,7 +55,7 @@ app.get("/urls/new", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
-  console.log(req.body);
+  console.log(req.params);
   urlDatabase[generateRandomString(6)] = req.body.longURL;
   res.send(urlDatabase);
 });
@@ -63,6 +63,12 @@ app.post("/urls", (req, res) => {
 app.get("/urls/:shortURL", (req, res) => {
   let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
   res.render("urls_show", templateVars);
+});
+
+app.post("/urls/:shortURL/update", (req, res) => {
+  console.log(req.body);
+  urlDatabase[req.params.shortURL] = req.body.newURL;
+  res.redirect("/urls");
 });
 
 app.post("/urls/:shortURL/delete", (req, res) => {
