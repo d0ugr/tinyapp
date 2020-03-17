@@ -4,6 +4,8 @@ app.set("view engine", "ejs");
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 
+const ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
 const PORT = 8080; // default port 8080
 
 const urlDatabase = {
@@ -13,17 +15,35 @@ const urlDatabase = {
 
 
 
+const generateRandomString = function(length) {
+
+  let result = "";
+
+  for (let i = 0; i < length; i++) {
+    result += ALPHANUMERIC[Math.floor(Math.random() * ALPHANUMERIC.length)];
+  }
+
+  return result;
+
+};
+
+
+
+app.listen(PORT, () => {
+  console.log(`TinyApp listening on port ${PORT}!`);
+});
+
+
+
+// ROUTES
+
 app.get("/u/:shortURL", (req, res) => {
   res.redirect(urlDatabase[req.params.shortURL]);
-});
+});  
 
 app.get("/", (req, res) => {
   res.send("Hello!");
-});
-
-app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
-});
+});  
 
 app.get("/urls", (req, res) => {
   let templateVars = { urls: urlDatabase };
@@ -48,19 +68,3 @@ app.get("/urls/:shortURL", (req, res) => {
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
-
-
-
-const ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-const generateRandomString = function(length) {
-
-  let result = "";
-
-  for (let i = 0; i < length; i++) {
-    result += ALPHANUMERIC[Math.floor(Math.random() * ALPHANUMERIC.length)];
-  }
-
-  return result;
-
-};
