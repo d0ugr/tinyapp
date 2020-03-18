@@ -1,9 +1,7 @@
-const express = require("express");
-const app = express();
+const app = require("express")();
 app.set("view engine", "ejs");
-const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({extended: true}));
-const cookieParser = require("cookie-parser");
+app.use(require("body-parser").urlencoded({ extended: true }));
+app.use(require("cookie-parser")());
 
 const ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
@@ -48,11 +46,14 @@ app.get("/", (req, res) => {
 
 app.post("/login", (req, res) => {
   res.cookie("username", req.body.username);
-  res.send("Totally logged in\n");
+  res.redirect("/urls");
 });
 
 app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase };
+  let templateVars = {
+    username: req.cookies && req.cookies.username,
+    urls:     urlDatabase
+  };
   res.render("urls_index", templateVars);
 });
 
@@ -61,13 +62,16 @@ app.get("/urls/new", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
-  console.log(req.params);
   urlDatabase[generateRandomString(6)] = req.body.longURL;
   res.send(urlDatabase);
 });
 
 app.get("/urls/:shortURL", (req, res) => {
-  let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
+  let templateVars = {
+    username: req.cookies && req.cookies["username"],
+    shortURL: req.params.shortURL,
+    longURL:  urlDatabase[req.params.shortURL]
+  };
   res.render("urls_show", templateVars);
 });
 
