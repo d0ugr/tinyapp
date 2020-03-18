@@ -39,6 +39,22 @@ const generateRandomString = function(length) {
 
 };
 
+const getCurrentUser = function(req) {
+
+  return req.cookies && req.cookies.user_id && users[req.cookies.user_id];
+
+};
+
+const getUserByEmail = function(email) {
+
+  for (const key in users) {
+    if (users[key].email === email) {
+      return users[key];
+    }
+  }
+
+};
+
 
 
 app.listen(PORT, () => {
@@ -59,21 +75,26 @@ app.get("/", (req, res) => {
 
 app.get("/register", (req, res) => {
   res.render("register", {
-    user: req.cookies && req.cookies.user_id && users[req.cookies.user_id]
+    user: getCurrentUser(req)
   });
 });
 
 app.post("/register", (req, res) => {
-  const userId = generateRandomString(6);
   const { email, password } = req.body;
-  users[userId] = {
-    id:       userId,
-    email:    email,
-    password: password
-  };
-  console.log(users);
-  res.cookie("user_id", userId);
-  res.redirect("/urls");
+  if (email && password && !getUserByEmail(email)) {
+    const userId = generateRandomString(6);
+    users[userId] = {
+      id:       userId,
+      email:    email,
+      password: password
+    };
+    console.log(users);
+    res.cookie("user_id", userId);
+    res.redirect("/urls");
+  } else {
+    res.statusCode = 400;
+    res.send("No way, Jose.")
+  }
 });
 
 app.post("/login", (req, res) => {
@@ -104,7 +125,7 @@ app.post("/urls", (req, res) => {
 
 app.get("/urls/:shortURL", (req, res) => {
   res.render("urls_show", {
-    user:     req.cookies && req.cookies.user_id && users[req.cookies.user_id],
+    user:     getCurrentUser(req),
     shortURL: req.params.shortURL,
     longURL:  urlDatabase[req.params.shortURL]
   });
