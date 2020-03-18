@@ -81,19 +81,22 @@ app.get("/register", (req, res) => {
 
 app.post("/register", (req, res) => {
   const { email, password } = req.body;
-  if (email && password && !getUserByEmail(email)) {
-    const userId = generateRandomString(6);
-    users[userId] = {
-      id:       userId,
+  if (!email) {
+    res.status(400).send("Enter an email address.");
+  } else if (!password) {
+    res.status(400).send("Enter a password.");
+  } else if (!getUserByEmail(email)) {
+    res.status(400).send("Email address exists.");
+  } else {
+    const newUserId = generateRandomString(6);
+    users[newUserId] = {
+      id:       newUserId,
       email:    email,
       password: password
     };
     console.log(users);
-    res.cookie("user_id", userId);
+    res.cookie("user_id", newUserId);
     res.redirect("/urls");
-  } else {
-    res.statusCode = 400;
-    res.send("No way, Jose.")
   }
 });
 
