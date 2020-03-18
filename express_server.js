@@ -58,7 +58,9 @@ const getUserByEmail = function(email) {
 
 
 app.listen(PORT, () => {
+
   console.log(`TinyApp listening on port ${PORT}`);
+
 });
 
 
@@ -66,21 +68,29 @@ app.listen(PORT, () => {
 // ROUTES
 
 app.get("/u/:shortURL", (req, res) => {
+
   res.redirect(urlDatabase[req.params.shortURL]);
+
 });
 
 app.get("/", (req, res) => {
+
   res.send("Hello!");
+
 });
 
 app.get("/register", (req, res) => {
+
   res.render("register", {
     user: getCurrentUser(req)
   });
+
 });
 
 app.post("/register", (req, res) => {
+
   const { email, password } = req.body;
+
   if (!email) {
     res.status(400).send("Enter an email address.");
   } else if (!password) {
@@ -98,64 +108,86 @@ app.post("/register", (req, res) => {
     res.cookie("user_id", newUserId);
     res.redirect("/urls");
   }
+
 });
 
 app.get("/login", (req, res) => {
+
   res.render("login", {
     user: getCurrentUser(req)
   });
+
 });
 
 app.post("/login", (req, res) => {
+
   const { email, password } = req.body;
   const user = getUserByEmail(email);
+
   if (!user || password !== user.password) {
     res.status(403).send("Nope.");
   } else {
     res.cookie("user_id", user.id);
     res.redirect("/urls");
   }
+
 });
 
 app.post("/logout", (req, res) => {
+
   res.clearCookie("user_id");
   res.redirect("/urls");
+
 });
 
 app.get("/urls", (req, res) => {
+
   res.render("urls_index", {
     user: getCurrentUser(req),
     urls: urlDatabase
   });
+
 });
 
 app.get("/urls/new", (req, res) => {
+
   res.render("urls_new");
+
 });
 
 app.post("/urls", (req, res) => {
+
   urlDatabase[generateRandomString(6)] = req.body.longURL;
   res.send(urlDatabase);
+
 });
 
 app.get("/urls/:shortURL", (req, res) => {
+
   res.render("urls_show", {
     user:     getCurrentUser(req),
     shortURL: req.params.shortURL,
     longURL:  urlDatabase[req.params.shortURL]
   });
+
 });
 
 app.post("/urls/:shortURL/update", (req, res) => {
+
   urlDatabase[req.params.shortURL] = req.body.newURL;
   res.redirect("/urls");
+
 });
 
 app.post("/urls/:shortURL/delete", (req, res) => {
+
   delete urlDatabase[req.params.shortURL];
   res.redirect("/urls");
+
 });
 
 app.get("/urls.json", (req, res) => {
+
   res.json(urlDatabase);
+
 });
