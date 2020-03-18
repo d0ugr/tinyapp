@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="collapse navbar-collapse justify-content-end">
-        <% if (!username) { %>
+        <% if (!user || !user.email) { %>
         <form method="POST" action="/login">
           <div class="d-inline-flex">
             <input type="text" id="username" name="username" class="form-control" style="max-width: 15em;">
@@ -21,7 +21,7 @@
         <% } else { %>
         <form method="POST" action="/logout">
           <div class="d-inline-flex">
-            <small class="input-group-text">Totally logged in as <%= username %></small>
+            <span class="input-group-text"><small>Totally logged in as <%= user.email %></small></span>
             <button type="submit" id="logout" class="btn btn-primary">Logout</button>
           </div>
         </form>

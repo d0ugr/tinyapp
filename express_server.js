@@ -59,7 +59,7 @@ app.get("/", (req, res) => {
 
 app.get("/register", (req, res) => {
   res.render("register", {
-    username: req.cookies && req.cookies.username
+    user: req.cookies && req.cookies.user_id && users[req.cookies.user_id]
   });
 });
 
@@ -88,8 +88,8 @@ app.post("/logout", (req, res) => {
 
 app.get("/urls", (req, res) => {
   res.render("urls_index", {
-    username: req.cookies && req.cookies.username,
-    urls:     urlDatabase
+    user: req.cookies && users[req.cookies.user_id],
+    urls: urlDatabase
   });
 });
 
@@ -104,7 +104,7 @@ app.post("/urls", (req, res) => {
 
 app.get("/urls/:shortURL", (req, res) => {
   res.render("urls_show", {
-    username: req.cookies && req.cookies["username"],
+    user:     req.cookies && req.cookies.user_id && users[req.cookies.user_id],
     shortURL: req.params.shortURL,
     longURL:  urlDatabase[req.params.shortURL]
   });
