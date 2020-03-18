@@ -12,9 +12,9 @@
         <div class="input-group-text">Totally logged in as <%= username %></div>
         <% } else { %>
         <form method="POST" action="/login">
-          <div class="input-group input-group-sm">
+          <div class="input-group">
             <input type="text" id="username" name="username" class="form-control" style="max-width: 15em;">
-            <button class="btn btn-primary btn-sm">Login</button>
+            <button class="btn btn-primary">Login</button>
           </div>
         </form>
         <% } %>
