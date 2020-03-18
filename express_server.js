@@ -3,6 +3,7 @@ const app = express();
 app.set("view engine", "ejs");
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
+const cookieParser = require("cookie-parser");
 
 const ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
@@ -43,6 +44,11 @@ app.get("/u/:shortURL", (req, res) => {
 
 app.get("/", (req, res) => {
   res.send("Hello!");
+});
+
+app.post("/login", (req, res) => {
+  res.cookie("username", req.body.username);
+  res.send("Totally logged in\n");
 });
 
 app.get("/urls", (req, res) => {
