@@ -71,6 +71,8 @@ app.post("/register", (req, res) => {
     email:    email,
     password: password
   };
+  console.log(users);
+  res.cookie("user_id", userId);
   res.redirect("/urls");
 });
 
