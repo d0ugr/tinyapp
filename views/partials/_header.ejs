@@ -12,7 +12,7 @@
     </div>
     <div class="collapse navbar-collapse justify-content-end">
         <% if (!user || !user.email) { %>
-        <span class="input-group-text">You should totally&nbsp;<a href="/register">register</a></span>
+        <div class="input-group-text"><span>You should totally <a href="/login">login</a> or <a href="/register">register</a></span></div>
         <% } else { %>
         <form method="POST" action="/logout">
           <div class="d-inline-flex">
