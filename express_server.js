@@ -102,7 +102,7 @@ app.post("/register", (req, res) => {
 
 app.get("/login", (req, res) => {
   res.render("login", {
-    user: req.cookies && users[req.cookies.user_id]
+    user: getCurrentUser(req)
   });
 });
 
@@ -124,7 +124,7 @@ app.post("/logout", (req, res) => {
 
 app.get("/urls", (req, res) => {
   res.render("urls_index", {
-    user: req.cookies && users[req.cookies.user_id],
+    user: getCurrentUser(req),
     urls: urlDatabase
   });
 });
