@@ -16,7 +16,7 @@
         <% } else { %>
         <form method="POST" action="/logout">
           <div class="d-inline-flex">
-            <span class="input-group-text"><small>Totally logged in as <%= user.email %></small></span>
+            <span class="input-group-text"><small>Totally logged in as <b><%= user.email %></b></small></span>
             <button type="submit" id="logout" class="btn btn-primary">Logout</button>
           </div>
         </form>
