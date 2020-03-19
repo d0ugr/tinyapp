@@ -66,6 +66,17 @@ const getUserByEmail = function(email) {
 
 };
 
+const urlForUser = function(req) {
+
+  const url  = urlDatabase[req.params.shortURL];
+  const user = getCurrentUser(req);
+
+  if (url && user && url.userID === user.id) {
+    return url;
+  }
+
+};
+
 const urlsForUser = function(userID) {
 
   const result = {};
@@ -218,10 +229,9 @@ app.get("/urls/:shortURL", (req, res) => {
 
 app.post("/urls/:shortURL/update", (req, res) => {
 
-  const url  = urlDatabase[req.params.shortURL];
-  const user = getCurrentUser(req);
+  const url = urlForUser(req);
 
-  if (url && user && url.userID === user.id) {
+  if (url) {
     url.longURL = req.body.newURL;
     res.redirect("/urls");
   } else {
@@ -232,10 +242,7 @@ app.post("/urls/:shortURL/update", (req, res) => {
 
 app.post("/urls/:shortURL/delete", (req, res) => {
 
-  const url  = urlDatabase[req.params.shortURL];
-  const user = getCurrentUser(req);
-
-  if (url && user && url.userID === user.id) {
+  if (urlForUser(req)) {
     delete urlDatabase[req.params.shortURL];
     res.redirect("/urls");
   } else {
