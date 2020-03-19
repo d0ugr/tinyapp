@@ -25,16 +25,39 @@ const testUsers = {
 
 
 
-describe("getUserByEmail", function() {
+describe("getUserByEmail(users, email)", function() {
 
-  it("should return undefined with invalid email", function() {
-    const user = getUserByEmail(testUsers, "nope@nope.nope");
-    assert.isUndefined(user);
-  });
+  // Valid email
+
   it("should return a user with valid email", function() {
     const user = getUserByEmail(testUsers, "user@example.com");
     assert.strictEqual(user.id, "userRandomID");
   });
+
+  // Invalid email
+
+  it("should return undefined with invalid email: empty string", function() {
+    const user = getUserByEmail(testUsers, "");
+    assert.isUndefined(user);
+  });
+  it("should return undefined with invalid email: string not found", function() {
+    const user = getUserByEmail(testUsers, "nope@nope.nope");
+    assert.isUndefined(user);
+  });
+  it("should return undefined with invalid email: array", function() {
+    const user = getUserByEmail(testUsers, []);
+    assert.isUndefined(user);
+  });
+  it("should return undefined with invalid email: object", function() {
+    const user = getUserByEmail(testUsers, {});
+    assert.isUndefined(user);
+  });
+  it("should return undefined with invalid email: extra parameters", function() {
+    const user = getUserByEmail(testUsers, {}, 1, 2, 3);
+    assert.isUndefined(user);
+  });
+
+  //
 
 });
 
