@@ -228,9 +228,10 @@ app.post("/urls/new", (req, res) => {
   const user = getCurrentUser(userDB, req);
 
   if (user) {
-    if (req.body.longURL) {
+    const longURL = req.body.longURL;
+    if (longURL) {
       urlDB[generateRandomString(6)] = {
-        longURL: req.body.longURL,
+        longURL: longURL,
         userID:  user.id
       };
       res.redirect("/urls");
