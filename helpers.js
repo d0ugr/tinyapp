@@ -51,7 +51,6 @@ const urlsForUser = function(urls, userID) {
       result[key] = urls[key];
     }
   }
-  console.log(result);
 
   return result;
 

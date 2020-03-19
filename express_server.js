@@ -170,7 +170,7 @@ app.get("/urls", (req, res) => {
   if (user) {
     res.render("urls_index", {
       user: user,
-      urls: urlsForUser(userDB, user.id)
+      urls: urlsForUser(urlDB, user.id)
     });
   } else {
     res.redirect("/login");
