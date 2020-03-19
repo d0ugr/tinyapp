@@ -134,7 +134,6 @@ app.post("/register", (req, res) => {
           email:    email,
           password: hashedPW
         };
-        console.log(userDB);
         req.session.userId = newUserId;
         res.redirect("/urls");
       } else {
