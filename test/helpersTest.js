@@ -161,14 +161,54 @@ describe("urlForUser(urls, req)", function() {
 
   // Valid request
 
-  it("should return valid url object", function() {
-    const req = {
-      session: { userId:   "420"    },
-      params:  { shortURL: "b2xVn2" }
-    };
-    const url = urlForUser(user, testURLs, req);
-    console.log(url);
+  it("should return valid url object with valid user and request: \"420\", \"b2xVn2\"", function() {
+    const user = { id: "420" };
+    const req  = { params: { shortURL: "b2xVn2" } };
+    const url  = urlForUser(user, testURLs, req);
     assert.strictEqual(url.longURL, "http://www.lighthouselabs.ca");
+  });
+  it("should return valid url object with valid user and request: \"userRandomID\", \"9sm5xK\"", function() {
+    const user = { id: "userRandomID" };
+    const req  = { params: { shortURL: "9sm5xK" } };
+    const url  = urlForUser(user, testURLs, req);
+    assert.strictEqual(url.longURL, "http://www.google.com");
+  });
+
+  // Invalid request
+
+  it("should return undefined with missing parameters", function() {
+    const url = urlForUser();
+    assert.isUndefined(url);
+  });
+  it("should return undefined with invalid user and valid request: \"nope\", \"b2xVn2\"", function() {
+    const user = { id: "nope" };
+    const req  = { params: { shortURL: "b2xVn2" } };
+    const url  = urlForUser(user, testURLs, req);
+    assert.isUndefined(url);
+  });
+  it("should return undefined with valid user and invalid request: \"420\", \"abc123\"", function() {
+    const user = { id: "420" };
+    const req  = { params: { shortURL: "abc123" } };
+    const url  = urlForUser(user, testURLs, req);
+    assert.isUndefined(url);
+  });
+  it("should return undefined with invalid user and valid request: \"nope\", \"abc123\"", function() {
+    const user = { id: "nope" };
+    const req  = { params: { shortURL: "abc123" } };
+    const url  = urlForUser(user, testURLs, req);
+    assert.isUndefined(url);
+  });
+  it("should return undefined with invalid user and valid request: \"\", \"b2xVn2\"", function() {
+    const user = { id: "" };
+    const req  = { params: { shortURL: "b2xVn2" } };
+    const url  = urlForUser(user, testURLs, req);
+    assert.isUndefined(url);
+  });
+  it("should return undefined with invalid user and invalid request: \"\", \"\"", function() {
+    const user = { id: "" };
+    const req  = { params: { shortURL: "" } };
+    const url  = urlForUser(user, testURLs, req);
+    assert.isUndefined(url);
   });
 
 });
