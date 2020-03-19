@@ -32,7 +32,7 @@ const urlDatabase = {
   },
   "9sm5xK": {
     longURL: "http://www.google.com",
-    userID:  "420"
+    userID:  "userRandomID"
   }
 };
 
@@ -218,8 +218,15 @@ app.get("/urls/:shortURL", (req, res) => {
 
 app.post("/urls/:shortURL/update", (req, res) => {
 
-  urlDatabase[req.params.shortURL] = req.body.newURL;
-  res.redirect("/urls");
+  const url  = urlDatabase[req.params.shortURL];
+  const user = getCurrentUser(req);
+
+  if (url && user && url.userID === user.id) {
+    url.longURL = req.body.newURL;
+    res.redirect("/urls");
+  } else {
+    res.status(403).send("Nope.");
+  }
 
 });
 
