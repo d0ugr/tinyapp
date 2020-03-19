@@ -270,9 +270,28 @@ describe("urlsForUser(urls, userID)", function() {
     const urls = urlsForUser(testURLs);
     assert.isUndefined(urls);
   });
-  it("should return undefined with invalid arguments: string", function() {
+  it("should return undefined with missing arguments", function() {
+    const urls = urlsForUser("420");
+    assert.isUndefined(urls);
+  });
+  it("should return undefined with invalid URLs: string", function() {
     const urls = urlsForUser("nope");
-    console.log(urls);
+    assert.isUndefined(urls);
+  });
+  it("should return undefined with invalid URLs: array", function() {
+    const urls = urlsForUser([]);
+    assert.isUndefined(urls);
+  });
+  it("should return undefined with invalid URLs: object", function() {
+    const urls = urlsForUser({});
+    assert.isUndefined(urls);
+  });
+  it("should return undefined with valid URLs and user ID: array", function() {
+    const urls = urlsForUser(testURLs, []);
+    assert.isUndefined(urls);
+  });
+  it("should return undefined with valid URLs and user ID: object", function() {
+    const urls = urlsForUser(testURLs, {});
     assert.isUndefined(urls);
   });
 
