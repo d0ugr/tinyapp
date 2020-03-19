@@ -74,7 +74,13 @@ app.listen(PORT, () => {
 
 app.get("/u/:shortURL", (req, res) => {
 
-  res.redirect(urlDatabase[req.params.shortURL]);
+  const longURL = urlDatabase[req.params.shortURL];
+
+  if (longURL) {
+    res.redirect(longURL);
+  } else {
+    res.status(404).send("Whaaaaat???");
+  }
 
 });
 
