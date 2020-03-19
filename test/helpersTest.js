@@ -266,6 +266,15 @@ describe("urlsForUser(urls, userID)", function() {
     const urls = urlsForUser();
     assert.isUndefined(urls);
   });
+  it("should return undefined with missing arguments", function() {
+    const urls = urlsForUser(testURLs);
+    assert.isUndefined(urls);
+  });
+  it("should return undefined with invalid arguments: string", function() {
+    const urls = urlsForUser("nope");
+    console.log(urls);
+    assert.isUndefined(urls);
+  });
 
 });
 
