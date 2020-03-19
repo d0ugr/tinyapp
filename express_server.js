@@ -70,10 +70,14 @@ app.listen(PORT, () => {
 
 
 
-// ROUTES
+//////////////
+//  ROUTES  //
+//////////////
 
-// /u/:shortURL redirects to the long URL, or 404 if it doesn't exist.
-//  It is first for performance, since it will be the most accessed in the real world.
+
+
+// GET /u/:shortURL redirects to the long URL, or 404 if it doesn't exist.
+//    It is first for performance, since it will be the most accessed in the real world.
 
 app.get("/u/:shortURL", (req, res) => {
 
@@ -87,7 +91,7 @@ app.get("/u/:shortURL", (req, res) => {
 
 });
 
-// / redirects to the URL index for the current user, or the login page if no one is logged in.
+// GET / redirects to the URL index for the current user, or the login page if no one is logged in.
 
 app.get("/", (req, res) => {
 
