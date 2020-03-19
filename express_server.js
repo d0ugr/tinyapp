@@ -1,3 +1,6 @@
+
+
+
 const app = require("express")();
 app.set("view engine", "ejs");
 app.use(require("body-parser").urlencoded({ extended: true }));
@@ -237,8 +240,5 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 
 });
 
-app.get("/urls.json", (req, res) => {
 
-  res.json(urlDB);
 
-});
