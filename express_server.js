@@ -159,10 +159,16 @@ app.post("/logout", (req, res) => {
 
 app.get("/urls", (req, res) => {
 
-  res.render("urls_index", {
-    user: getCurrentUser(req),
-    urls: urlDatabase
-  });
+  const user = getCurrentUser(req);
+
+  if (user) {
+    res.render("urls_index", {
+      user: user,
+      urls: urlDatabase
+    });
+  } else {
+    res.redirect("/login");
+  }
 
 });
 
