@@ -81,7 +81,7 @@ app.get("/", (req, res) => {
 app.get("/register", (req, res) => {
 
   res.render("register", {
-    user: getCurrentUser(req)
+    user: getCurrentUser(usersDB, req)
   });
 
 });
@@ -94,7 +94,7 @@ app.post("/register", (req, res) => {
     res.status(400).send("Enter an email address.");
   } else if (!password) {
     res.status(400).send("Enter a password.");
-  } else if (getUserByEmail(email, usersDB)) {
+  } else if (getUserByEmail(usersDB, email)) {
     res.status(400).send("Email address exists.");
   } else {
     bcrypt.hash(password, SALT_ROUNDS, (error, hashedPW) => {
@@ -121,7 +121,7 @@ app.post("/register", (req, res) => {
 app.get("/login", (req, res) => {
 
   res.render("login", {
-    user: getCurrentUser(req)
+    user: getCurrentUser(usersDB, req)
   });
 
 });
@@ -129,7 +129,7 @@ app.get("/login", (req, res) => {
 app.post("/login", (req, res) => {
 
   const { email, password } = req.body;
-  const user = getUserByEmail(email, usersDB);
+  const user = getUserByEmail(usersDB, email);
 
   if (user) {
     bcrypt.compare(password, user.password, (error, pwMatch) => {
@@ -161,12 +161,12 @@ app.post("/logout", (req, res) => {
 
 app.get("/urls", (req, res) => {
 
-  const user = getCurrentUser(req);
+  const user = getCurrentUser(usersDB, req);
 
   if (user) {
     res.render("urls_index", {
       user: user,
-      urls: urlsForUser(user.id)
+      urls: urlsForUser(usersDB, user.id)
     });
   } else {
     res.redirect("/login");
@@ -176,7 +176,7 @@ app.get("/urls", (req, res) => {
 
 app.get("/urls/new", (req, res) => {
 
-  const user = getCurrentUser(req);
+  const user = getCurrentUser(usersDB, req);
 
   if (user) {
     res.render("urls_new", { user });
@@ -196,16 +196,16 @@ app.post("/urls", (req, res) => {
 app.get("/urls/:shortURL", (req, res) => {
 
   res.render("urls_show", {
-    user:     getCurrentUser(req),
+    user:     getCurrentUser(usersDB, req),
     shortURL: req.params.shortURL,
-    longURL:  urlDB[req.params.shortURL]
+    longURL:  urlDB[req.params.shortURL].longURL
   });
 
 });
 
 app.post("/urls/:shortURL/update", (req, res) => {
 
-  const url = urlForUser(req);
+  const url = urlForUser(usersDB, req);
 
   if (url) {
     url.longURL = req.body.newURL;
