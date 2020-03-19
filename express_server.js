@@ -28,12 +28,12 @@ const userDB = {
   "userRandomID": {
     id:       "userRandomID",
     email:    "user@example.com",
-    password: "purple-monkey-dinosaur"
+    password: "$2b$10$PHAbVbPeYGooQ9BK2fo0AefE1vG6htmFuX7pb2g.UwSAlCrrCePFi" // 123
   },
   "user2RandomID": {
     id:       "user2RandomID",
     email:    "user2@example.com",
-    password: "dishwasher-funk"
+    password: "$2b$10$pSyWYULNxfYS9wuyahL78Oo5kYZktc2Qx6VbE0Erl6BABFPFscyiO" // dishwasher-funk
   }
 };
 
