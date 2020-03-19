@@ -72,6 +72,9 @@ app.listen(PORT, () => {
 
 // ROUTES
 
+// /u/:shortURL redirects to the long URL, or 404 if it doesn't exist.
+//  It is first for performance, since it will be the most accessed in the real world.
+
 app.get("/u/:shortURL", (req, res) => {
 
   const url = urlDB[req.params.shortURL];
@@ -84,6 +87,8 @@ app.get("/u/:shortURL", (req, res) => {
 
 });
 
+// / redirects to the URL index for the current user, or the login page if no one is logged in.
+
 app.get("/", (req, res) => {
 
   if (getCurrentUser(userDB, req)) {
@@ -94,6 +99,8 @@ app.get("/", (req, res) => {
 
 });
 
+// GET /register shows the new account creation page.
+
 app.get("/register", (req, res) => {
 
   res.render("register", {
@@ -101,6 +108,8 @@ app.get("/register", (req, res) => {
   });
 
 });
+
+// POST /register creates a new account, if the given information is valid.
 
 app.post("/register", (req, res) => {
 
@@ -134,6 +143,8 @@ app.post("/register", (req, res) => {
 
 });
 
+// GET /login shows the login page.
+
 app.get("/login", (req, res) => {
 
   res.render("login", {
@@ -141,6 +152,8 @@ app.get("/login", (req, res) => {
   });
 
 });
+
+// POST /login attempts to log a user in, after validating input.
 
 app.post("/login", (req, res) => {
 
@@ -175,6 +188,8 @@ app.post("/logout", (req, res) => {
 
 });
 
+// GET /urls shows the URL listing page for the current user, or redirects to the login page if no one is logged in.
+
 app.get("/urls", (req, res) => {
 
   const user = getCurrentUser(userDB, req);
@@ -190,6 +205,8 @@ app.get("/urls", (req, res) => {
 
 });
 
+// GET /urls/new shows the new URL creation page, or redirects to the login page if no one is logged in.
+
 app.get("/urls/new", (req, res) => {
 
   const user = getCurrentUser(userDB, req);
@@ -202,12 +219,16 @@ app.get("/urls/new", (req, res) => {
 
 });
 
+// POST /urls/new creates a new shortened URL, or redirects to the login page if no one is logged in.
+
 app.post("/urls", (req, res) => {
 
   urlDB[generateRandomString(6)] = req.body.longURL;
   res.send(urlDB);
 
 });
+
+// GET /urls/:shortURL shows the information page for a given short URL, or redirects to the login page if no one is logged in.
 
 app.get("/urls/:shortURL", (req, res) => {
 
@@ -218,6 +239,8 @@ app.get("/urls/:shortURL", (req, res) => {
   });
 
 });
+
+// POST /urls/:shortURL/update updates the long URL for the specified short URL, or redirects to the login page if no one is logged in.
 
 app.post("/urls/:shortURL/update", (req, res) => {
 
@@ -231,6 +254,8 @@ app.post("/urls/:shortURL/update", (req, res) => {
   }
 
 });
+
+// POST /urls/:shortURL/delete removes the specified short URL from the database, or redirects to the login page if no one is logged in.
 
 app.post("/urls/:shortURL/delete", (req, res) => {
 
