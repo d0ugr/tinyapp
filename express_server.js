@@ -177,11 +177,23 @@ app.post("/login", (req, res) => {
   const { email, password } = req.body;
   const user = getUserByEmail(email);
 
-  if (!user || password !== user.password) {
-    res.status(403).send("Nope.");
+  if (user) {
+    bcrypt.compare(password, user.password, (error, pwMatch) => {
+      if (!error) {
+        if (pwMatch) {
+          res.cookie("user_id", user.id);
+          res.redirect("/urls");
+        } else {
+          res.status(403).send("Nope.");
+        }
+      } else {
+        console.log(error);
+        res.status(500).send("Server did bad things to the bed");
+        return;
+      }
+    });
   } else {
-    res.cookie("user_id", user.id);
-    res.redirect("/urls");
+    res.status(403).send("Nope.");
   }
 
 });
