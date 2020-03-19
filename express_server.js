@@ -232,8 +232,15 @@ app.post("/urls/:shortURL/update", (req, res) => {
 
 app.post("/urls/:shortURL/delete", (req, res) => {
 
-  delete urlDatabase[req.params.shortURL];
-  res.redirect("/urls");
+  const url  = urlDatabase[req.params.shortURL];
+  const user = getCurrentUser(req);
+
+  if (url && user && url.userID === user.id) {
+    delete urlDatabase[req.params.shortURL];
+    res.redirect("/urls");
+  } else {
+    res.status(403).send("Nope.");
+  }
 
 });
 
