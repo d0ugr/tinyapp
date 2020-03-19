@@ -9,25 +9,31 @@ const PORT = 7734;
 
 const users = {
   "420": {
-    id: "420",
-    email: "4@2.0",
+    id:       "420",
+    email:    "4@2.0",
     password: "123"
   },
   "userRandomID": {
-    id: "userRandomID",
-    email: "user@example.com",
+    id:       "userRandomID",
+    email:    "user@example.com",
     password: "purple-monkey-dinosaur"
   },
   "user2RandomID": {
-    id: "user2RandomID",
-    email: "user2@example.com",
+    id:       "user2RandomID",
+    email:    "user2@example.com",
     password: "dishwasher-funk"
   }
 };
 
 const urlDatabase = {
-  "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  "b2xVn2": {
+    longURL: "http://www.lighthouselabs.ca",
+    userID:  "420"
+  },
+  "9sm5xK": {
+    longURL: "http://www.google.com",
+    userID:  "420"
+  }
 };
 
 
@@ -74,10 +80,10 @@ app.listen(PORT, () => {
 
 app.get("/u/:shortURL", (req, res) => {
 
-  const longURL = urlDatabase[req.params.shortURL];
+  const url = urlDatabase[req.params.shortURL];
 
-  if (longURL) {
-    res.redirect(longURL);
+  if (url) {
+    res.redirect(url.longURL);
   } else {
     res.status(404).send("Whaaaaat???");
   }
