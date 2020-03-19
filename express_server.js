@@ -66,6 +66,21 @@ const getUserByEmail = function(email) {
 
 };
 
+const urlsForUser = function(userID) {
+
+  const result = {};
+
+  for (const key in urlDatabase) {
+    if (urlDatabase[key].userID === userID) {
+      result[key] = urlDatabase[key];
+    }
+  }
+  console.log(result);
+
+  return result;
+
+};
+
 
 
 app.listen(PORT, () => {
@@ -164,7 +179,7 @@ app.get("/urls", (req, res) => {
   if (user) {
     res.render("urls_index", {
       user: user,
-      urls: urlDatabase
+      urls: urlsForUser(user.id)
     });
   } else {
     res.redirect("/login");
