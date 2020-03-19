@@ -275,7 +275,7 @@ app.post("/urls/:shortURL/update", (req, res) => {
   const user = getCurrentUser(userDB, req);
 
   if (user) {
-    const url = urlForUser(userDB, req);
+    const url = urlForUser(urlDB, req);
     if (url) {
       url.longURL = req.body.newURL;
       res.redirect("/urls");
