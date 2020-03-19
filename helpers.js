@@ -14,7 +14,7 @@ const generateRandomString = function(length) {
     result += ALPHANUMERIC[Math.floor(Math.random() * ALPHANUMERIC.length)];
   }
 
-  return result;
+  return (result.length > 0 ? result : undefined);
 
 };
 

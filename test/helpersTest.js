@@ -3,7 +3,15 @@
 
 const { assert } = require("chai");
 
-const { getUserByEmail } = require("../helpers.js");
+const {
+  generateRandomString,
+  getCurrentUser,
+  getUserByEmail,
+  urlForUser,
+  urlsForUser
+} = require("../helpers.js");
+
+const ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 const testUsers = {
   "420": {
@@ -27,8 +35,37 @@ const testUsers = {
 
 describe("generateRandomString(length)", function() {
 
-  it("should return ", function() {
-    assert.strictEqual(, );
+  // Valid length
+
+  it("should return string with valid length: 1", function() {
+    assert.strictEqual(generateRandomString(1).length, 1);
+  });
+  it("should return string with valid length: 6", function() {
+    assert.strictEqual(generateRandomString(6).length, 6);
+  });
+  it("should return string with valid length: 100", function() {
+    assert.strictEqual(generateRandomString(100).length, 100);
+  });
+  // it("should return alphanumeric string with valid length: 10", function() {
+  //   assert.strictEqual(generateRandomString(100).length, 100);
+  // });
+
+  // Invalid length
+
+  it("should return undefined with no length", function() {
+    assert.isUndefined(generateRandomString());
+  });
+  it("should return undefined with invalid length: 0", function() {
+    assert.isUndefined(generateRandomString(0));
+  });
+  it("should return undefined with invalid length: empty string", function() {
+    assert.isUndefined(generateRandomString(""));
+  });
+  it("should return undefined with invalid length: empty array", function() {
+    assert.isUndefined(generateRandomString([]));
+  });
+  it("should return undefined with invalid length: empty object", function() {
+    assert.isUndefined(generateRandomString({}));
   });
 
 });
@@ -36,7 +73,7 @@ describe("generateRandomString(length)", function() {
 describe("getCurrentUser(users, req)", function() {
 
   it("should return ", function() {
-    assert.strictEqual(, );
+    // assert.strictEqual(, );
   });
 
 });
@@ -80,7 +117,7 @@ describe("getUserByEmail(users, email)", function() {
 describe("urlForUser(urls, req)", function() {
 
   it("should return ", function() {
-    assert.strictEqual(, );
+    // assert.strictEqual(, );
   });
 
 });
@@ -88,7 +125,7 @@ describe("urlForUser(urls, req)", function() {
 describe("urlsForUser(urls, userID)", function() {
 
   it("should return ", function() {
-    assert.strictEqual(, );
+    // assert.strictEqual(, );
   });
 
 });
