@@ -144,21 +144,20 @@ app.post("/register", (req, res) => {
     res.status(400).send("Email address exists.");
   } else {
     bcrypt.hash(password, SALT_ROUNDS, (error, hashedPW) => {
-      if (error) {
+      if (!error) {
+        const newUserId = generateRandomString(6);
+        users[newUserId] = {
+          id:       newUserId,
+          email:    email,
+          password: hashedPW
+        };
+        res.cookie("user_id", newUserId);
+        res.redirect("/urls");
+      } else {
         console.log(error);
         res.status(500).send("Server did bad things to the bed");
         return;
       }
-      console.log(hashedPW);
-      const newUserId = generateRandomString(6);
-      users[newUserId] = {
-        id:       newUserId,
-        email:    email,
-        password: hashedPW
-      };
-      console.log(users);
-      res.cookie("user_id", newUserId);
-      res.redirect("/urls");
     });
   }
 
