@@ -74,15 +74,6 @@ const urlsForUser = function(urls, userID) {
 
 };
 
-// setURL returns an object containing a group of URL objects for the specified user.
-//    Returns an empty object if no matching URL objects were found.
-
-const setURL = function(urls, userID) {
-
-  return result;
-
-};
-
 
 
 module.exports = {
