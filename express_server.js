@@ -19,6 +19,12 @@ const {
 const PORT = 7734;
 const SALT_ROUNDS = 10;
 
+//const HTTP_STATUS_400 = "Nope.";
+const HTTP_STATUS_403 = "Nope.";
+const HTTP_STATUS_404 = "Whaaaaat???";
+const HTTP_STATUS_500 = "Server did bad things to the bed";
+
+
 const userDB = {
   "420": {
     id:       "420",
@@ -67,7 +73,7 @@ app.get("/u/:shortURL", (req, res) => {
   if (url) {
     res.redirect(url.longURL);
   } else {
-    res.status(404).send("Whaaaaat???");
+    res.status(404).send(HTTP_STATUS_404);
   }
 
 });
@@ -114,7 +120,7 @@ app.post("/register", (req, res) => {
         res.redirect("/urls");
       } else {
         console.log(error);
-        res.status(500).send("Server did bad things to the bed");
+        res.status(500).send(HTTP_STATUS_500);
         return;
       }
     });
@@ -142,16 +148,16 @@ app.post("/login", (req, res) => {
           req.session.userId = user.id;
           res.redirect("/urls");
         } else {
-          res.status(403).send("Nope.");
+          res.status(403).send(HTTP_STATUS_403);
         }
       } else {
         console.log(error);
-        res.status(500).send("Server did bad things to the bed");
+        res.status(500).send(HTTP_STATUS_500);
         return;
       }
     });
   } else {
-    res.status(403).send("Nope.");
+    res.status(403).send(HTTP_STATUS_403);
   }
 
 });
@@ -215,7 +221,7 @@ app.post("/urls/:shortURL/update", (req, res) => {
     url.longURL = req.body.newURL;
     res.redirect("/urls");
   } else {
-    res.status(403).send("Nope.");
+    res.status(403).send(HTTP_STATUS_403);
   }
 
 });
@@ -226,7 +232,7 @@ app.post("/urls/:shortURL/delete", (req, res) => {
     delete urlDB[req.params.shortURL];
     res.redirect("/urls");
   } else {
-    res.status(403).send("Nope.");
+    res.status(403).send(HTTP_STATUS_403);
   }
 
 });
