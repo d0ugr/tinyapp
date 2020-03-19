@@ -1,32 +1,7 @@
 
 
 
-const app = require("express")();
-app.set("view engine", "ejs");
-app.use(require("body-parser").urlencoded({ extended: true }));
-app.use(require("cookie-session")({
-  name:   "session",
-  secret: "totally-secret-impossible-to-break-cookie-secret",
-  maxAge: 24 * 60 * 60 * 1000
-}));
-const bcrypt = require("bcrypt");
-
-const {
-  generateRandomString,
-  getCurrentUser,
-  getUserByEmail,
-  urlForUser,
-  urlsForUser
-} = require("./helpers");
-
-const PORT = 7734;
-const SALT_ROUNDS = 10;
-
-//const HTTP_STATUS_400 = "Nope.";
-const HTTP_STATUS_403 = "Nope.";
-const HTTP_STATUS_404 = "Whaaaaat???";
-const HTTP_STATUS_500 = "Server did bad things to the bed";
-
+// TEST DATA
 
 const userDB = {
   "420": {
@@ -58,6 +33,34 @@ const urlDB = {
 };
 
 
+
+const PORT = 7734;
+const SALT_ROUNDS = 10;
+
+//const HTTP_STATUS_400 = "Nope.";
+const HTTP_STATUS_403 = "Nope.";
+const HTTP_STATUS_404 = "Whaaaaat???";
+const HTTP_STATUS_500 = "Server did bad things to the bed";
+
+
+
+const app = require("express")();
+app.set("view engine", "ejs");
+app.use(require("body-parser").urlencoded({ extended: true }));
+app.use(require("cookie-session")({
+  name:   "session",
+  secret: "totally-secret-impossible-to-break-cookie-secret",
+  maxAge: 24 * 60 * 60 * 1000
+}));
+const bcrypt = require("bcrypt");
+
+const {
+  generateRandomString,
+  getCurrentUser,
+  getUserByEmail,
+  urlForUser,
+  urlsForUser
+} = require("./helpers");
 
 app.listen(PORT, () => {
 
