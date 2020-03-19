@@ -48,10 +48,12 @@ const getUserByEmail = function(users, email) {
 
 const urlForUser = function(user, urls, req) {
 
-  const url = urls[req.params.shortURL];
+  if (req && req.params) {
+    const url = urls[req.params.shortURL];
 
-  if (user && url && url.userID === user.id) {
-    return url;
+    if (user && url && url.userID === user.id) {
+      return url;
+    }
   }
 
 };
