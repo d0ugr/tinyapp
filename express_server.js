@@ -223,8 +223,18 @@ app.get("/urls/new", (req, res) => {
 
 app.post("/urls", (req, res) => {
 
-  urlDB[generateRandomString(6)] = req.body.longURL;
-  res.send(urlDB);
+  const user = getCurrentUser(userDB, req);
+
+  if (user) {
+    if (req.body.longURL) {
+      urlDB[generateRandomString(6)] = req.body.longURL;
+      res.redirect("/urls");
+    } else {
+      res.status(400).send("Invalid URL.");
+    }
+  } else {
+    res.redirect("/login");
+  }
 
 });
 
