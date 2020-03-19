@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/d0ugr/tinyapp#readme",
   "dependencies": {
+    "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "ejs": "^3.0.1",
