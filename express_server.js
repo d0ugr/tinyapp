@@ -241,18 +241,27 @@ app.post("/urls/new", (req, res) => {
 
 });
 
-// GET /urls/:shortURL shows the information page for a given short URL, or redirects to the login page if no one is logged in.
+// GET /urls/:shortURL shows the information page for a given short URL.
+//    If no one is logged in, the client is redirected to the login page.
+//    If the short URL is invalid for some reason, the client is redirected to the URL index.
 
 app.get("/urls/:shortURL", (req, res) => {
 
   const user = getCurrentUser(userDB, req);
 
   if (user) {
-    res.render("urls_show", {
-      user:     user,
-      shortURL: req.params.shortURL,
-      longURL:  urlDB[req.params.shortURL].longURL
-    });
+    const shortURL = req.params.shortURL;
+    const url = urlDB[shortURL];
+
+    if (url) {
+      res.render("urls_show", {
+        user:     user,
+        shortURL: shortURL,
+        longURL:  url.longURL
+      });
+    } else {
+      res.redirect("/urls");
+    }
   } else {
     res.redirect("/login");
   }
