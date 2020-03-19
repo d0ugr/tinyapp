@@ -72,8 +72,40 @@ describe("generateRandomString(length)", function() {
 
 describe("getCurrentUser(users, req)", function() {
 
-  it("should return ", function() {
-    // assert.strictEqual(, );
+  // Valid user ID
+
+  it("should return valid user with valid request", function() {
+    const req  = { session: { userId: "userRandomID" } };
+    const user = getCurrentUser(testUsers, req);
+    assert.strictEqual(user.id, "userRandomID");
+  });
+  it("should return valid user with valid request", function() {
+    const req  = { session: { userId: "user2RandomID" } };
+    const user = getCurrentUser(testUsers, req);
+    assert.strictEqual(user.id, "user2RandomID");
+  });
+
+  // Invalid user ID
+
+  it("should return undefined user with invalid request: userId: \"\"", function() {
+    const req  = { session: { userId: "" } };
+    const user = getCurrentUser(testUsers, req);
+    assert.isUndefined(user);
+  });
+  it("should return undefined user with invalid request: userId: \"nope\"", function() {
+    const req  = { session: { userId: "nope" } };
+    const user = getCurrentUser(testUsers, req);
+    assert.isUndefined(user);
+  });
+  it("should return undefined user with invalid request: userId: []", function() {
+    const req  = { session: { userId: [] } };
+    const user = getCurrentUser(testUsers, req);
+    assert.isUndefined(user);
+  });
+  it("should return undefined user with invalid request: userId: {}", function() {
+    const req  = { session: { userId: {} } };
+    const user = getCurrentUser(testUsers, req);
+    assert.isUndefined(user);
   });
 
 });
