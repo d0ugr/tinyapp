@@ -1,7 +1,11 @@
 const app = require("express")();
 app.set("view engine", "ejs");
 app.use(require("body-parser").urlencoded({ extended: true }));
-app.use(require("cookie-parser")());
+app.use(require("cookie-session")({
+  name:   "session",
+  secret: "totally-secret-impossible-to-break-cookie-secret",
+  maxAge: 24 * 60 * 60 * 1000
+}));
 const bcrypt = require("bcrypt");
 
 const ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -13,7 +17,7 @@ const users = {
   "420": {
     id:       "420",
     email:    "4@2.0",
-    password: "123"
+    password: "$2b$10$6rhOxxh7V0U9Z/spzHOBj.kuYhv5rXmigNVMPT82eg3Wnp28Q8EuW" // 123
   },
   "userRandomID": {
     id:       "userRandomID",
@@ -54,7 +58,7 @@ const generateRandomString = function(length) {
 
 const getCurrentUser = function(req) {
 
-  return req.cookies && req.cookies.user_id && users[req.cookies.user_id];
+  return users[req.session.userId];
 
 };
 
@@ -151,7 +155,8 @@ app.post("/register", (req, res) => {
           email:    email,
           password: hashedPW
         };
-        res.cookie("user_id", newUserId);
+        console.log(users);
+        req.session.userId = newUserId;
         res.redirect("/urls");
       } else {
         console.log(error);
@@ -180,7 +185,7 @@ app.post("/login", (req, res) => {
     bcrypt.compare(password, user.password, (error, pwMatch) => {
       if (!error) {
         if (pwMatch) {
-          res.cookie("user_id", user.id);
+          req.session.userId = user.id;
           res.redirect("/urls");
         } else {
           res.status(403).send("Nope.");
