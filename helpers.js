@@ -71,7 +71,7 @@ const urlsForUser = function(urls, userID) {
     }
   }
 
-  return result;
+  return (Object.keys(result).length > 0 ? result : undefined);
 
 };
 
