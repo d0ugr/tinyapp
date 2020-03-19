@@ -260,13 +260,18 @@ app.get("/urls/:shortURL", (req, res) => {
 
 app.post("/urls/:shortURL/update", (req, res) => {
 
-  const url = urlForUser(userDB, req);
+  const user = getCurrentUser(userDB, req);
 
-  if (url) {
-    url.longURL = req.body.newURL;
-    res.redirect("/urls");
+  if (user) {
+    const url = urlForUser(userDB, req);
+    if (url) {
+      url.longURL = req.body.newURL;
+      res.redirect("/urls");
+    } else {
+      res.status(403).send(HTTP_STATUS_403);
+    }
   } else {
-    res.status(403).send(HTTP_STATUS_403);
+    res.redirect("/login");
   }
 
 });
