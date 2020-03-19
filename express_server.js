@@ -19,7 +19,7 @@ const {
 const PORT = 7734;
 const SALT_ROUNDS = 10;
 
-const usersDB = {
+const userDB = {
   "420": {
     id:       "420",
     email:    "4@2.0",
@@ -74,7 +74,7 @@ app.get("/u/:shortURL", (req, res) => {
 
 app.get("/", (req, res) => {
 
-  if (getCurrentUser(usersDB, req)) {
+  if (getCurrentUser(userDB, req)) {
     res.redirect("/urls");
   } else {
     res.redirect("/login");
@@ -85,7 +85,7 @@ app.get("/", (req, res) => {
 app.get("/register", (req, res) => {
 
   res.render("register", {
-    user: getCurrentUser(usersDB, req)
+    user: getCurrentUser(userDB, req)
   });
 
 });
@@ -98,18 +98,18 @@ app.post("/register", (req, res) => {
     res.status(400).send("Enter an email address.");
   } else if (!password) {
     res.status(400).send("Enter a password.");
-  } else if (getUserByEmail(usersDB, email)) {
+  } else if (getUserByEmail(userDB, email)) {
     res.status(400).send("Email address exists.");
   } else {
     bcrypt.hash(password, SALT_ROUNDS, (error, hashedPW) => {
       if (!error) {
         const newUserId = generateRandomString(6);
-        usersDB[newUserId] = {
+        userDB[newUserId] = {
           id:       newUserId,
           email:    email,
           password: hashedPW
         };
-        console.log(usersDB);
+        console.log(userDB);
         req.session.userId = newUserId;
         res.redirect("/urls");
       } else {
@@ -125,7 +125,7 @@ app.post("/register", (req, res) => {
 app.get("/login", (req, res) => {
 
   res.render("login", {
-    user: getCurrentUser(usersDB, req)
+    user: getCurrentUser(userDB, req)
   });
 
 });
@@ -133,7 +133,7 @@ app.get("/login", (req, res) => {
 app.post("/login", (req, res) => {
 
   const { email, password } = req.body;
-  const user = getUserByEmail(usersDB, email);
+  const user = getUserByEmail(userDB, email);
 
   if (user) {
     bcrypt.compare(password, user.password, (error, pwMatch) => {
@@ -165,12 +165,12 @@ app.post("/logout", (req, res) => {
 
 app.get("/urls", (req, res) => {
 
-  const user = getCurrentUser(usersDB, req);
+  const user = getCurrentUser(userDB, req);
 
   if (user) {
     res.render("urls_index", {
       user: user,
-      urls: urlsForUser(usersDB, user.id)
+      urls: urlsForUser(userDB, user.id)
     });
   } else {
     res.redirect("/login");
@@ -180,7 +180,7 @@ app.get("/urls", (req, res) => {
 
 app.get("/urls/new", (req, res) => {
 
-  const user = getCurrentUser(usersDB, req);
+  const user = getCurrentUser(userDB, req);
 
   if (user) {
     res.render("urls_new", { user });
@@ -200,7 +200,7 @@ app.post("/urls", (req, res) => {
 app.get("/urls/:shortURL", (req, res) => {
 
   res.render("urls_show", {
-    user:     getCurrentUser(usersDB, req),
+    user:     getCurrentUser(userDB, req),
     shortURL: req.params.shortURL,
     longURL:  urlDB[req.params.shortURL].longURL
   });
@@ -209,7 +209,7 @@ app.get("/urls/:shortURL", (req, res) => {
 
 app.post("/urls/:shortURL/update", (req, res) => {
 
-  const url = urlForUser(usersDB, req);
+  const url = urlForUser(userDB, req);
 
   if (url) {
     url.longURL = req.body.newURL;
