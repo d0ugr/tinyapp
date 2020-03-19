@@ -8,6 +8,11 @@ const ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 const PORT = 7734;
 
 const users = {
+  "420": {
+    id: "420",
+    email: "4@2.0",
+    password: "123"
+  },
   "userRandomID": {
     id: "userRandomID",
     email: "user@example.com",
