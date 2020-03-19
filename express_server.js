@@ -74,7 +74,11 @@ app.get("/u/:shortURL", (req, res) => {
 
 app.get("/", (req, res) => {
 
-  res.send("Hello!");
+  if (getCurrentUser(usersDB, req)) {
+    res.redirect("/urls");
+  } else {
+    res.redirect("/login");
+  }
 
 });
 
