@@ -31,6 +31,17 @@ const testUsers = {
   }
 };
 
+const testURLs = {
+  "b2xVn2": {
+    longURL: "http://www.lighthouselabs.ca",
+    userID:  "420"
+  },
+  "9sm5xK": {
+    longURL: "http://www.google.com",
+    userID:  "userRandomID"
+  }
+};
+
 
 
 describe("generateRandomString(length)", function() {
@@ -148,8 +159,16 @@ describe("getUserByEmail(users, email)", function() {
 
 describe("urlForUser(urls, req)", function() {
 
-  it("should return ", function() {
-    // assert.strictEqual(, );
+  // Valid request
+
+  it("should return valid url object", function() {
+    const req = {
+      session: { userId:   "420"    },
+      params:  { shortURL: "b2xVn2" }
+    };
+    const url = urlForUser(testURLs, req);
+    console.log(url);
+    assert.strictEqual(url.longURL, "http://www.lighthouselabs.ca");
   });
 
 });
