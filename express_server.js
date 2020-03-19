@@ -13,7 +13,7 @@ const ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345
 const PORT = 7734;
 const SALT_ROUNDS = 10;
 
-const users = {
+const usersDB = {
   "420": {
     id:       "420",
     email:    "4@2.0",
@@ -31,7 +31,7 @@ const users = {
   }
 };
 
-const urlDatabase = {
+const urlDB = {
   "b2xVn2": {
     longURL: "http://www.lighthouselabs.ca",
     userID:  "420"
@@ -58,11 +58,11 @@ const generateRandomString = function(length) {
 
 const getCurrentUser = function(req) {
 
-  return users[req.session.userId];
+  return usersDB[req.session.userId];
 
 };
 
-const getUserByEmail = function(email) {
+const getUserByEmail = function(email, users) {
 
   for (const key in users) {
     if (users[key].email === email) {
@@ -74,7 +74,7 @@ const getUserByEmail = function(email) {
 
 const urlForUser = function(req) {
 
-  const url  = urlDatabase[req.params.shortURL];
+  const url  = urlDB[req.params.shortURL];
   const user = getCurrentUser(req);
 
   if (url && user && url.userID === user.id) {
@@ -87,9 +87,9 @@ const urlsForUser = function(userID) {
 
   const result = {};
 
-  for (const key in urlDatabase) {
-    if (urlDatabase[key].userID === userID) {
-      result[key] = urlDatabase[key];
+  for (const key in urlDB) {
+    if (urlDB[key].userID === userID) {
+      result[key] = urlDB[key];
     }
   }
   console.log(result);
@@ -112,7 +112,7 @@ app.listen(PORT, () => {
 
 app.get("/u/:shortURL", (req, res) => {
 
-  const url = urlDatabase[req.params.shortURL];
+  const url = urlDB[req.params.shortURL];
 
   if (url) {
     res.redirect(url.longURL);
@@ -144,18 +144,18 @@ app.post("/register", (req, res) => {
     res.status(400).send("Enter an email address.");
   } else if (!password) {
     res.status(400).send("Enter a password.");
-  } else if (getUserByEmail(email)) {
+  } else if (getUserByEmail(email, usersDB)) {
     res.status(400).send("Email address exists.");
   } else {
     bcrypt.hash(password, SALT_ROUNDS, (error, hashedPW) => {
       if (!error) {
         const newUserId = generateRandomString(6);
-        users[newUserId] = {
+        usersDB[newUserId] = {
           id:       newUserId,
           email:    email,
           password: hashedPW
         };
-        console.log(users);
+        console.log(usersDB);
         req.session.userId = newUserId;
         res.redirect("/urls");
       } else {
@@ -179,7 +179,7 @@ app.get("/login", (req, res) => {
 app.post("/login", (req, res) => {
 
   const { email, password } = req.body;
-  const user = getUserByEmail(email);
+  const user = getUserByEmail(email, usersDB);
 
   if (user) {
     bcrypt.compare(password, user.password, (error, pwMatch) => {
@@ -238,8 +238,8 @@ app.get("/urls/new", (req, res) => {
 
 app.post("/urls", (req, res) => {
 
-  urlDatabase[generateRandomString(6)] = req.body.longURL;
-  res.send(urlDatabase);
+  urlDB[generateRandomString(6)] = req.body.longURL;
+  res.send(urlDB);
 
 });
 
@@ -248,7 +248,7 @@ app.get("/urls/:shortURL", (req, res) => {
   res.render("urls_show", {
     user:     getCurrentUser(req),
     shortURL: req.params.shortURL,
-    longURL:  urlDatabase[req.params.shortURL]
+    longURL:  urlDB[req.params.shortURL]
   });
 
 });
@@ -269,7 +269,7 @@ app.post("/urls/:shortURL/update", (req, res) => {
 app.post("/urls/:shortURL/delete", (req, res) => {
 
   if (urlForUser(req)) {
-    delete urlDatabase[req.params.shortURL];
+    delete urlDB[req.params.shortURL];
     res.redirect("/urls");
   } else {
     res.status(403).send("Nope.");
@@ -279,6 +279,6 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 
 app.get("/urls.json", (req, res) => {
 
-  res.json(urlDatabase);
+  res.json(urlDB);
 
 });
