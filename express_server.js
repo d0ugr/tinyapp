@@ -151,7 +151,13 @@ app.get("/urls", (req, res) => {
 
 app.get("/urls/new", (req, res) => {
 
-  res.render("urls_new");
+  const user = getCurrentUser(req);
+
+  if (user) {
+    res.render("urls_new", { user });
+  } else {
+    res.redirect("/login");
+  }
 
 });
 
