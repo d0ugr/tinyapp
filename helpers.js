@@ -23,7 +23,9 @@ const generateRandomString = function(length) {
 
 const getCurrentUser = function(users, req) {
 
-  return users[req.session.userId];
+  if (users && req && req.session) {
+    return users[req.session.userId];
+  }
 
 };
 
@@ -67,6 +69,15 @@ const urlsForUser = function(urls, userID) {
       result[key] = urls[key];
     }
   }
+
+  return result;
+
+};
+
+// setURL returns an object containing a group of URL objects for the specified user.
+//    Returns an empty object if no matching URL objects were found.
+
+const setURL = function(urls, userID) {
 
   return result;
 
