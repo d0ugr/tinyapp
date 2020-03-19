@@ -280,11 +280,17 @@ app.post("/urls/:shortURL/update", (req, res) => {
 
 app.post("/urls/:shortURL/delete", (req, res) => {
 
-  if (urlForUser(req)) {
-    delete urlDB[req.params.shortURL];
-    res.redirect("/urls");
+  const user = getCurrentUser(userDB, req);
+
+  if (user) {
+    if (urlForUser(req)) {
+      delete urlDB[req.params.shortURL];
+      res.redirect("/urls");
+    } else {
+      res.status(403).send(HTTP_STATUS_403);
+    }
   } else {
-    res.status(403).send(HTTP_STATUS_403);
+    res.redirect("/login");
   }
 
 });
