@@ -1,7 +1,7 @@
 
 
 
-const ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+const ALPHANUMERIC_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 // generateRandomString returns an ID string for use as a user ID or short URL key.
 //    TODO: Update to generate actual unique ID strings.
@@ -11,7 +11,7 @@ const generateRandomString = function(length) {
   let result = "";
 
   for (let i = 0; i < length; i++) {
-    result += ALPHANUMERIC[Math.floor(Math.random() * ALPHANUMERIC.length)];
+    result += ALPHANUMERIC_CHARS[Math.floor(Math.random() * ALPHANUMERIC_CHARS.length)];
   }
 
   return (result.length > 0 ? result : undefined);

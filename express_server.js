@@ -1,7 +1,8 @@
 
 
-
-// TEST DATA
+/////////////////
+//  TEST DATA  //
+/////////////////
 
 const userDB = {
   "420": {
@@ -34,7 +35,16 @@ const urlDB = {
 
 
 
+/////////////////
+//  CONSTANTS  //
+/////////////////
+
 const PORT = 7734;
+
+const COOKIE_NAME   = "tinyapp-session"
+const COOKIE_SECRET = "totally-secret-impossible-to-break-cookie-secret";
+const COOKIE_MAXAGE = 24 * 60 * 60 * 1000;
+
 const SALT_ROUNDS = 10;
 
 //const HTTP_STATUS_400 = "Nope.";
@@ -48,9 +58,9 @@ const app = require("express")();
 app.set("view engine", "ejs");
 app.use(require("body-parser").urlencoded({ extended: true }));
 app.use(require("cookie-session")({
-  name:   "session",
-  secret: "totally-secret-impossible-to-break-cookie-secret",
-  maxAge: 24 * 60 * 60 * 1000
+  name:   COOKIE_NAME,
+  secret: COOKIE_SECRET,
+  maxAge: COOKIE_MAXAGE
 }));
 const bcrypt = require("bcrypt");
 
