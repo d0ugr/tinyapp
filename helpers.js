@@ -65,9 +65,11 @@ const urlsForUser = function(urls, userID) {
 
   const result = {};
 
-  for (const key in urls) {
-    if (urls[key].userID === userID) {
-      result[key] = urls[key];
+  if (typeof urls === "object") {
+    for (const key in urls) {
+      if (urls[key].userID === userID) {
+        result[key] = urls[key];
+      }
     }
   }
 
