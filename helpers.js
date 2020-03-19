@@ -43,15 +43,14 @@ const getUserByEmail = function(users, email) {
 };
 
 // urlForUser returns a URL object for given user id and short URL key.
-//    The user and short URL are retrieved from a given Express HTTP request object.
+//    The short URL are retrieved from a given Express HTTP request object.
 //    Returns the long URL, or undefined if no user is logged in, or the short URL key is invalid.
 
-const urlForUser = function(urls, req) {
+const urlForUser = function(user, urls, req) {
 
-  const url  = urls[req.params.shortURL];
-  const user = getCurrentUser(req);
+  const url = urls[req.params.shortURL];
 
-  if (url && user && url.userID === user.id) {
+  if (user && url && url.userID === user.id) {
     return url;
   }
 

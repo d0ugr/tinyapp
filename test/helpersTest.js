@@ -166,7 +166,7 @@ describe("urlForUser(urls, req)", function() {
       session: { userId:   "420"    },
       params:  { shortURL: "b2xVn2" }
     };
-    const url = urlForUser(testURLs, req);
+    const url = urlForUser(user, testURLs, req);
     console.log(url);
     assert.strictEqual(url.longURL, "http://www.lighthouselabs.ca");
   });

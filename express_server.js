@@ -278,7 +278,7 @@ app.post("/urls/:shortURL/update", (req, res) => {
   const user = getCurrentUser(userDB, req);
 
   if (user) {
-    const url = urlForUser(urlDB, req);
+    const url = urlForUser(user, urlDB, req);
     if (url) {
       url.longURL = req.body.newURL;
       res.redirect("/urls");
@@ -298,7 +298,7 @@ app.post("/urls/:shortURL/delete", (req, res) => {
   const user = getCurrentUser(userDB, req);
 
   if (user) {
-    if (urlForUser(req)) {
+    if (urlForUser(user, urlDB, req)) {
       delete urlDB[req.params.shortURL];
       res.redirect("/urls");
     } else {
