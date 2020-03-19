@@ -221,13 +221,16 @@ app.get("/urls/new", (req, res) => {
 
 // POST /urls/new creates a new shortened URL, or redirects to the login page if no one is logged in.
 
-app.post("/urls", (req, res) => {
+app.post("/urls/new", (req, res) => {
 
   const user = getCurrentUser(userDB, req);
 
   if (user) {
     if (req.body.longURL) {
-      urlDB[generateRandomString(6)] = req.body.longURL;
+      urlDB[generateRandomString(6)] = {
+        longURL: req.body.longURL,
+        userID:  user.id
+      };
       res.redirect("/urls");
     } else {
       res.status(400).send("Invalid URL.");
