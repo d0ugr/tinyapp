@@ -2,10 +2,12 @@ const app = require("express")();
 app.set("view engine", "ejs");
 app.use(require("body-parser").urlencoded({ extended: true }));
 app.use(require("cookie-parser")());
+const bcrypt = require("bcrypt");
 
 const ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 const PORT = 7734;
+const SALT_ROUNDS = 10;
 
 const users = {
   "420": {
@@ -138,18 +140,26 @@ app.post("/register", (req, res) => {
     res.status(400).send("Enter an email address.");
   } else if (!password) {
     res.status(400).send("Enter a password.");
-  } else if (!getUserByEmail(email)) {
+  } else if (getUserByEmail(email)) {
     res.status(400).send("Email address exists.");
   } else {
-    const newUserId = generateRandomString(6);
-    users[newUserId] = {
-      id:       newUserId,
-      email:    email,
-      password: password
-    };
-    console.log(users);
-    res.cookie("user_id", newUserId);
-    res.redirect("/urls");
+    bcrypt.hash(password, SALT_ROUNDS, (error, hashedPW) => {
+      if (error) {
+        console.log(error);
+        res.status(500).send("Server did bad things to the bed");
+        return;
+      }
+      console.log(hashedPW);
+      const newUserId = generateRandomString(6);
+      users[newUserId] = {
+        id:       newUserId,
+        email:    email,
+        password: hashedPW
+      };
+      console.log(users);
+      res.cookie("user_id", newUserId);
+      res.redirect("/urls");
+    });
   }
 
 });
