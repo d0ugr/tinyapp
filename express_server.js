@@ -8,7 +8,13 @@ app.use(require("cookie-session")({
 }));
 const bcrypt = require("bcrypt");
 
-const ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+const {
+  generateRandomString,
+  getCurrentUser,
+  getUserByEmail,
+  urlForUser,
+  urlsForUser
+} = require("./helpers");
 
 const PORT = 7734;
 const SALT_ROUNDS = 10;
@@ -40,62 +46,6 @@ const urlDB = {
     longURL: "http://www.google.com",
     userID:  "userRandomID"
   }
-};
-
-
-
-const generateRandomString = function(length) {
-
-  let result = "";
-
-  for (let i = 0; i < length; i++) {
-    result += ALPHANUMERIC[Math.floor(Math.random() * ALPHANUMERIC.length)];
-  }
-
-  return result;
-
-};
-
-const getCurrentUser = function(req) {
-
-  return usersDB[req.session.userId];
-
-};
-
-const getUserByEmail = function(email, users) {
-
-  for (const key in users) {
-    if (users[key].email === email) {
-      return users[key];
-    }
-  }
-
-};
-
-const urlForUser = function(req) {
-
-  const url  = urlDB[req.params.shortURL];
-  const user = getCurrentUser(req);
-
-  if (url && user && url.userID === user.id) {
-    return url;
-  }
-
-};
-
-const urlsForUser = function(userID) {
-
-  const result = {};
-
-  for (const key in urlDB) {
-    if (urlDB[key].userID === userID) {
-      result[key] = urlDB[key];
-    }
-  }
-  console.log(result);
-
-  return result;
-
 };
 
 
