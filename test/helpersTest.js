@@ -25,6 +25,22 @@ const testUsers = {
 
 
 
+describe("generateRandomString(length)", function() {
+
+  it("should return ", function() {
+    assert.strictEqual(, );
+  });
+
+});
+
+describe("getCurrentUser(users, req)", function() {
+
+  it("should return ", function() {
+    assert.strictEqual(, );
+  });
+
+});
+
 describe("getUserByEmail(users, email)", function() {
 
   // Valid email
@@ -58,6 +74,22 @@ describe("getUserByEmail(users, email)", function() {
   });
 
   //
+
+});
+
+describe("urlForUser(urls, req)", function() {
+
+  it("should return ", function() {
+    assert.strictEqual(, );
+  });
+
+});
+
+describe("urlsForUser(urls, userID)", function() {
+
+  it("should return ", function() {
+    assert.strictEqual(, );
+  });
 
 });
 
