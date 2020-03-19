@@ -242,11 +242,17 @@ app.post("/urls", (req, res) => {
 
 app.get("/urls/:shortURL", (req, res) => {
 
-  res.render("urls_show", {
-    user:     getCurrentUser(userDB, req),
-    shortURL: req.params.shortURL,
-    longURL:  urlDB[req.params.shortURL].longURL
-  });
+  const user = getCurrentUser(userDB, req);
+
+  if (user) {
+    res.render("urls_show", {
+      user:     user,
+      shortURL: req.params.shortURL,
+      longURL:  urlDB[req.params.shortURL].longURL
+    });
+  } else {
+    res.redirect("/login");
+  }
 
 });
 
