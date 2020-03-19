@@ -180,6 +180,28 @@ describe("urlForUser(urls, req)", function() {
     const url = urlForUser();
     assert.isUndefined(url);
   });
+  it("should return undefined with missing parameters", function() {
+    const user = { id: "nope" };
+    const url  = urlForUser(user);
+    assert.isUndefined(url);
+  });
+  it("should return undefined with invalid/missing parameters", function() {
+    const req  = { params: { shortURL: "b2xVn2" } };
+    const url  = urlForUser(req);
+    assert.isUndefined(url);
+  });
+  it("should return undefined with missing parameters", function() {
+    const user = { id: "nope" };
+    const req  = { params: { shortURL: "b2xVn2" } };
+    const url  = urlForUser(user, req);
+    assert.isUndefined(url);
+  });
+  it("should return undefined with valid user and valid request in wrong order: \"nope\", \"b2xVn2\"", function() {
+    const user = { id: "nope" };
+    const req  = { params: { shortURL: "b2xVn2" } };
+    const url  = urlForUser(testURLs, user, req);
+    assert.isUndefined(url);
+  });
   it("should return undefined with invalid user and valid request: \"nope\", \"b2xVn2\"", function() {
     const user = { id: "nope" };
     const req  = { params: { shortURL: "b2xVn2" } };
@@ -207,6 +229,18 @@ describe("urlForUser(urls, req)", function() {
   it("should return undefined with invalid user and invalid request: \"\", \"\"", function() {
     const user = { id: "" };
     const req  = { params: { shortURL: "" } };
+    const url  = urlForUser(user, testURLs, req);
+    assert.isUndefined(url);
+  });
+  it("should return undefined with invalid user and invalid request: [], []", function() {
+    const user = { id: [] };
+    const req  = { params: { shortURL: [] } };
+    const url  = urlForUser(user, testURLs, req);
+    assert.isUndefined(url);
+  });
+  it("should return undefined with invalid user and invalid request: {}, {}", function() {
+    const user = { id: {} };
+    const req  = { params: { shortURL: {} } };
     const url  = urlForUser(user, testURLs, req);
     assert.isUndefined(url);
   });
