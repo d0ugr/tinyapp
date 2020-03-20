@@ -15,8 +15,8 @@
     <div class="card-header"></div>
 
     <div class="card-body mx-auto">
-      <p class="card-title">Short URL: <a href="/u/<%= shortURL %>">tiny.app/u/<%= shortURL %></a>
-      <p class="card-title">Long URL: <a href="<%= longURL %>"><%= longURL %></a></p>
+      <p class="card-title">Short URL: <a href="/u/<%= shortURL %>" target="_blank">tiny.app/u/<%= shortURL %></a>
+      <p class="card-title">Long URL: <a href="<%= longURL %>" target="_blank"><%= longURL %></a></p>
       <form method="POST" action="/urls/<%= shortURL %>">
         <div class="input-group mb-3">
           <div class="input-group-prepend"><span class="input-group-text">New long URL</span></div>
