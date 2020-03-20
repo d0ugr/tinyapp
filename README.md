@@ -44,6 +44,7 @@ The source code is arranged as follows:
 - Node.js
 - Express
 - EJS
+- method-override
 - body-parser
 - cookie-session
 - bcrypt
