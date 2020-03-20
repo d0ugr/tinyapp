@@ -50,4 +50,4 @@ The source code is arranged as follows:
 
 ## Testing
 
-Unit tests can be run with `npm test`.  See the `tests` directory for test scripts.
+Unit tests can be run with `npm test`.  See the `test` directory for test scripts.
