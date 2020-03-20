@@ -90,6 +90,19 @@ app.get("/u/:shortURL", (req, res) => {
 
   if (url) {
     url.visits++;
+    const uniqueVisit = url.uniqueVisits[req.session.visitorID];
+    if (req.session.visitorID && uniqueVisit) {
+      const uniqueVisit = url.uniqueVisits[req.session.visitorID];
+      uniqueVisit.visits++;
+      uniqueVisit.timestamp = new Date().getTime();
+    } else {
+      const newVisitorID = generateRandomString(ID_STRING_LENGTH);
+      url.uniqueVisits[newVisitorID] = {
+        visits:    1,
+        timestamp: new Date().getTime()
+      };
+      req.session.visitorID = newVisitorID;
+    }
     res.redirect(url.longURL);
   } else {
     renderError(userDB, req, res, 404, HTTP_STATUS_404);
@@ -206,7 +219,7 @@ app.post("/logout", (req, res) => {
 
 });
 
-// GET /urls shows the URL listing page for the current user,
+// GET /urls shows the URL index page for the current user,
 //    or shows an error if no one is logged in.
 
 app.get("/urls", (req, res) => {
@@ -264,7 +277,7 @@ app.get("/urls/:shortURL", (req, res) => {
     res.render("urls_show", {
       user:     user,
       shortURL: shortURL,
-      longURL:  url.longURL
+      url:      url
     });
   }
 
