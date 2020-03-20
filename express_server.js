@@ -16,6 +16,8 @@ const {
 
 const DEFAULT_PORT = 8080;
 
+const ID_STRING_LENGTH = 6;
+
 const COOKIE_NAME   = "tinyapp-session";
 const COOKIE_SECRET = "totally-secret-impossible-to-break-cookie-secret";
 const COOKIE_MAXAGE = 24 * 60 * 60 * 1000;
@@ -131,7 +133,7 @@ app.post("/register", (req, res) => {
   } else {
     bcrypt.hash(password, SALT_ROUNDS, (error, hashedPW) => {
       if (!error) {
-        const newUserId = generateRandomString(6);
+        const newUserId = generateRandomString(ID_STRING_LENGTH);
         userDB[newUserId] = {
           id:       newUserId,
           email:    email,
@@ -280,7 +282,7 @@ app.post("/urls", (req, res) => {
   } else if (!longURL) {
     renderError(userDB, req, res, 400, HTTP_STATUS_400_INVALID_URL);
   } else {
-    urlDB[generateRandomString(6)] = {
+    urlDB[generateRandomString(ID_STRING_LENGTH)] = {
       longURL: longURL,
       userID:  user.id
     };
