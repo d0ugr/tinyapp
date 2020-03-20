@@ -310,8 +310,10 @@ app.post("/urls", (req, res) => {
     renderError(userDB, req, res, 400, HTTP_STATUS_400_INVALID_URL);
   } else {
     urlDB[generateRandomString(ID_STRING_LENGTH)] = {
-      longURL: longURL,
-      userID:  user.id
+      userID:       user.id,
+      longURL:      longURL,
+      visits:       0,
+      uniqueVisits: {}
     };
     res.redirect("/urls");
   }
