@@ -25,12 +25,26 @@ const userDB = {
 
 const urlDB = {
   "b2xVn2": {
+    userID:  "test",
     longURL: "http://www.lighthouselabs.ca",
-    userID:  "test"
+    visits:  0,
+    uniqueVisits: [
+      {
+        visitorID: "eU8yCb",
+        timestamp: ""
+      }
+    ]
   },
   "9sm5xK": {
+    userID:  "userRandomID",
     longURL: "http://www.google.com",
-    userID:  "userRandomID"
+    visits:  0,
+    uniqueVisits: [
+      {
+        visitorID: "eU8yCb",
+        timestamp: ""
+      }
+    ]
   }
 };
 
