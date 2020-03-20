@@ -23,28 +23,30 @@ const userDB = {
   }
 };
 
+
+
 const urlDB = {
   "b2xVn2": {
     userID:  "test",
     longURL: "http://www.lighthouselabs.ca",
     visits:  0,
-    uniqueVisits: {
-      // "eU8yCb": {
-      //   visits:    1,
-      //   timestamp: ""
-      // }
-    }
+    // uniqueVisits: {
+    //   "eU8yCb": {
+    //     visits:    1,
+    //     timestamp: ""
+    //   }
+    // }
   },
   "9sm5xK": {
     userID:  "userRandomID",
     longURL: "http://www.google.com",
     visits:  0,
-    uniqueVisits: {
-      // "eU8yCb": {
-      //   visits:    1,
-      //   timestamp: ""
-      // }
-    }
+    // uniqueVisits: {
+    //   "eU8yCb": {
+    //     visits:    1,
+    //     timestamp: ""
+    //   }
+    // }
   }
 };
 

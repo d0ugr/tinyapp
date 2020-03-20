@@ -39,6 +39,7 @@
         <% } else { %>
           <% for (const shortURL in urls) { %>
             <% const url = urls[shortURL] %>
+            <% if (!url.uniqueVisits) url.uniqueVisits = {} %>
             <tr>
               <td><a href="/u/<%= shortURL %>" target="_blank">tiny.app/u/<%= shortURL %></a></td>
               <td><a href="<%= url.longURL %>" target="_blank"><%= url.longURL %></a></td>
