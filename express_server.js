@@ -63,12 +63,11 @@ const fs     = require("fs");
 
 // Main initialization
 
-const args = process.argv.slice(2);
+const cmdLineArgs = process.argv.slice(2);
 
-let port = Number(args[0]);
-const userDBFileSpec = args[1];
-const urlDBFileSpec  = args[2];
+// Read a user DB data file
 
+const userDBFileSpec = cmdLineArgs[1];
 if (typeof userDBFileSpec === "string") {
   console.log(`Reading user DB from: ${userDBFileSpec}`);
   fs.readFile(userDBFileSpec, (error, data) => {
@@ -85,6 +84,9 @@ if (typeof userDBFileSpec === "string") {
   });
 }
 
+// Read a URL DB data file
+
+const urlDBFileSpec  = cmdLineArgs[2];
 if (typeof urlDBFileSpec === "string") {
   console.log(`Reading URL DB from:  ${urlDBFileSpec}`);
   fs.readFile(urlDBFileSpec, (error, data) => {
@@ -101,6 +103,9 @@ if (typeof urlDBFileSpec === "string") {
   });
 }
 
+// Start listening for connections
+
+let port = Number(cmdLineArgs[0]);
 if (!Number.isInteger(port)) {
   port = DEFAULT_PORT;
 }
