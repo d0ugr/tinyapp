@@ -47,10 +47,10 @@ const COOKIE_MAXAGE = 24 * 60 * 60 * 1000;
 
 const SALT_ROUNDS = 10;
 
-//const HTTP_STATUS_400 = "Unauthorized.";
-const HTTP_STATUS_403 = "Forbidden.";
-const HTTP_STATUS_404 = "Not found";
-const HTTP_STATUS_500 = "Internal server error";
+//const HTTP_STATUS_400 = "Nope.";
+const HTTP_STATUS_403 = "Nope.";
+const HTTP_STATUS_404 = "Whaaaaat???";
+const HTTP_STATUS_500 = "Server did bad things to the bed";
 
 
 
@@ -103,7 +103,7 @@ app.get("/u/:shortURL", (req, res) => {
   if (url) {
     res.redirect(url.longURL);
   } else {
-    renderError(userDB, req, res, 404, HTTP_STATUS_404);
+    res.status(404).send(HTTP_STATUS_404);
   }
 
 });
@@ -137,11 +137,11 @@ app.post("/register", (req, res) => {
   const { email, password } = req.body;
 
   if (!email) {
-    renderError(userDB, req, res, 400, "Enter an email address.");
+    res.status(400).send("Enter an email address.");
   } else if (!password) {
-    renderError(userDB, req, res, 400, "Enter a password.");
+    res.status(400).send("Enter a password.");
   } else if (getUserByEmail(userDB, email)) {
-    renderError(userDB, req, res, 400, "Email address exists.");
+    res.status(400).send("Email address exists.");
   } else {
     bcrypt.hash(password, SALT_ROUNDS, (error, hashedPW) => {
       if (!error) {
@@ -155,7 +155,7 @@ app.post("/register", (req, res) => {
         res.redirect("/urls");
       } else {
         console.log(error);
-        renderError(userDB, req, res, 500, HTTP_STATUS_500);
+        res.status(500).send(HTTP_STATUS_500);
       }
     });
   }
@@ -176,8 +176,8 @@ app.get("/login", (req, res) => {
 
 app.post("/login", (req, res) => {
 
-  const user = getUserByEmail(userDB, email);
   const { email, password } = req.body;
+  const user = getUserByEmail(userDB, email);
 
   if (user) {
     bcrypt.compare(password, user.password, (error, pwMatch) => {
@@ -186,15 +186,15 @@ app.post("/login", (req, res) => {
           req.session.userId = user.id;
           res.redirect("/urls");
         } else {
-          renderError(userDB, req, res, 403, HTTP_STATUS_403);
+          res.status(403).send(HTTP_STATUS_403);
         }
       } else {
         console.log(error);
-        renderError(userDB, req, res, 500, HTTP_STATUS_500);
+        res.status(500).send(HTTP_STATUS_500);
       }
     });
   } else {
-    renderError(userDB, req, res, 403, HTTP_STATUS_403);
+    res.status(403).send(HTTP_STATUS_403);
   }
 
 });
@@ -256,7 +256,7 @@ app.post("/urls/new", (req, res) => {
       };
       res.redirect("/urls");
     } else {
-      renderError(userDB, req, res, 400, "Invalid URL.");
+      res.status(400).send("Invalid URL.");
     }
   } else {
     res.redirect("/login");
@@ -303,7 +303,7 @@ app.post("/urls/:shortURL/update", (req, res) => {
       url.longURL = req.body.newURL;
       res.redirect("/urls");
     } else {
-      renderError(userDB, req, res, 403, HTTP_STATUS_403);
+      res.status(403).send(HTTP_STATUS_403);
     }
   } else {
     res.redirect("/login");
@@ -322,24 +322,13 @@ app.post("/urls/:shortURL/delete", (req, res) => {
       delete urlDB[req.params.shortURL];
       res.redirect("/urls");
     } else {
-      renderError(userDB, req, res, 403, HTTP_STATUS_403);
+      res.status(403).send(HTTP_STATUS_403);
     }
   } else {
     res.redirect("/login");
   }
 
 });
-
-
-
-const renderError = function(userDB, req, res, httpStatus, errorMsg) {
-
-  res.status(httpStatus).render("error", {
-    user:     getCurrentUser(userDB, req),
-    errorMsg: errorMsg
-  });
-
-};
 
 
 
