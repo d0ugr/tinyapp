@@ -1,8 +1,8 @@
 # TinyApp
 
-TinyApp is a full stack web application built with [Node.js](https://nodejs.org) and [Express](https://expressjs.com) that allows users to manage shortened long URLs (much like bit.ly).
+TinyApp is a full stack web application built with [Node.js](https://nodejs.org) and [Express](https://expressjs.com) that allows users to manage shortened long URLs (much like bit.ly).  Users can log in to an existing account, or create a new one.  Basic URL visitor statistics are kept and can be viewed, including total visits, and a list of unique visits (tracked by session cookie) which includes the number of visits and the timestamp of the last visit.
 
-It is not suitable for production use and is release to the public domain for demonstration and educational purposes.
+TinyApp is not suitable for production use and is release to the public domain for demonstration and educational purposes.
 
 ## Screenshots
 
