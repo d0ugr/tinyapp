@@ -176,8 +176,8 @@ app.get("/login", (req, res) => {
 
 app.post("/login", (req, res) => {
 
-  const user = getUserByEmail(userDB, email);
   const { email, password } = req.body;
+  const user = getUserByEmail(userDB, email);
 
   if (user) {
     bcrypt.compare(password, user.password, (error, pwMatch) => {
@@ -186,7 +186,7 @@ app.post("/login", (req, res) => {
           req.session.userId = user.id;
           res.redirect("/urls");
         } else {
-          renderError(userDB, req, res, 403, HTTP_STATUS_403);
+          renderError(userDB, req, res, 403, "Invalid username or password.");
         }
       } else {
         console.log(error);
@@ -194,7 +194,7 @@ app.post("/login", (req, res) => {
       }
     });
   } else {
-    renderError(userDB, req, res, 403, HTTP_STATUS_403);
+    renderError(userDB, req, res, 403, "Invalid username or password.");
   }
 
 });
@@ -210,7 +210,8 @@ app.post("/logout", (req, res) => {
 
 });
 
-// GET /urls shows the URL listing page for the current user, or redirects to the login page if no one is logged in.
+// GET /urls shows the URL listing page for the current user,
+//    or redirects to the login page if no one is logged in.
 
 app.get("/urls", (req, res) => {
 
@@ -227,7 +228,8 @@ app.get("/urls", (req, res) => {
 
 });
 
-// GET /urls/new shows the new URL creation page, or redirects to the login page if no one is logged in.
+// GET /urls/new shows the new URL creation page,
+//    or redirects to the login page if no one is logged in.
 
 app.get("/urls/new", (req, res) => {
 
@@ -241,7 +243,8 @@ app.get("/urls/new", (req, res) => {
 
 });
 
-// POST /urls/new creates a new shortened URL, or redirects to the login page if no one is logged in.
+// POST /urls/new creates a new shortened URL,
+//    or redirects to the login page if no one is logged in.
 
 app.post("/urls/new", (req, res) => {
 
@@ -311,7 +314,8 @@ app.post("/urls/:shortURL/update", (req, res) => {
 
 });
 
-// POST /urls/:shortURL/delete removes the specified short URL from the database, or redirects to the login page if no one is logged in.
+// POST /urls/:shortURL/delete removes the specified short URL from the database,
+//    or redirects to the login page if no one is logged in.
 
 app.post("/urls/:shortURL/delete", (req, res) => {
 
@@ -332,10 +336,18 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 
 
 
-const renderError = function(userDB, req, res, httpStatus, errorMsg) {
+// renderError shows the error page.
+//
+//    users:      Object: List of users, used by getCurrentUser.
+//    req:        Object: Express HTTP request object.
+//    res:        Object: Express HTTP response object.
+//    httpStatus: Number: HTTP status code to set in the response.
+//    errorMsg:   String: Human readable message to display.
+
+const renderError = function(users, req, res, httpStatus, errorMsg) {
 
   res.status(httpStatus).render("error", {
-    user:     getCurrentUser(userDB, req),
+    user:     getCurrentUser(users, req),
     errorMsg: errorMsg
   });
 
