@@ -11,8 +11,6 @@ const {
   urlsForUser
 } = require("../helpers.js");
 
-const ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
 const testUsers = {
   "test": {
     id:       "test",

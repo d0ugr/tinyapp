@@ -41,7 +41,7 @@ const urlDB = {
 
 const DEFAULT_PORT = 7734;
 
-const COOKIE_NAME   = "tinyapp-session"
+const COOKIE_NAME   = "tinyapp-session";
 const COOKIE_SECRET = "totally-secret-impossible-to-break-cookie-secret";
 const COOKIE_MAXAGE = 24 * 60 * 60 * 1000;
 
