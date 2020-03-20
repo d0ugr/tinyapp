@@ -176,16 +176,14 @@ app.post("/login", (req, res) => {
     renderError(userDB, req, res, 403, HTTP_STATUS_403_INVALID_LOGIN);
   } else {
     bcrypt.compare(password, user.password, (error, pwMatch) => {
-      if (!error) {
-        if (pwMatch) {
-          req.session.userId = user.id;
-          res.redirect("/urls");
-        } else {
-          renderError(userDB, req, res, 403, HTTP_STATUS_403_INVALID_LOGIN);
-        }
-      } else {
+      if (error) {
         console.log(error);
         renderError(userDB, req, res, 500, HTTP_STATUS_500);
+      } else if (!pwMatch) {
+        renderError(userDB, req, res, 403, HTTP_STATUS_403_INVALID_LOGIN);
+      } else {
+        req.session.userId = user.id;
+        res.redirect("/urls");
       }
     });
   }
@@ -204,7 +202,7 @@ app.post("/logout", (req, res) => {
 });
 
 // GET /urls shows the URL listing page for the current user,
-//    or redirects to the login page if no one is logged in.
+//    or shows an error if no one is logged in.
 
 app.get("/urls", (req, res) => {
 
@@ -241,8 +239,7 @@ app.get("/urls/new", (req, res) => {
 });
 
 // GET /urls/:shortURL shows the information page for a given short URL.
-//    If no one is logged in, the client is redirected to the login page.
-//    If the short URL is invalid for some reason, the client is redirected to the URL index.
+//    If no one is logged in, or the short URL is invalid, an error is shown.
 
 app.get("/urls/:shortURL", (req, res) => {
 
@@ -269,7 +266,7 @@ app.get("/urls/:shortURL", (req, res) => {
 });
 
 // POST /urls creates a new shortened URL,
-//    or redirects to the login page if no one is logged in.
+//    or shows an error if no one is logged in.
 
 app.post("/urls", (req, res) => {
 
@@ -292,7 +289,8 @@ app.post("/urls", (req, res) => {
 
 });
 
-// POST /urls/:shortURL/update updates the long URL for the specified short URL, or redirects to the login page if no one is logged in.
+// POST /urls/:shortURL updates the long URL for the specified short URL,
+//    or shows an error if no one is logged in.
 
 app.post("/urls/:shortURL", (req, res) => {
 
@@ -316,7 +314,7 @@ app.post("/urls/:shortURL", (req, res) => {
 });
 
 // POST /urls/:shortURL/delete removes the specified short URL from the database,
-//    or redirects to the login page if no one is logged in.
+//    or shows an error if no one is logged in.
 
 app.post("/urls/:shortURL/delete", (req, res) => {
 
