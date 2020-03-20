@@ -53,6 +53,7 @@ const {
 
 const app = require("express")();
 app.set("view engine", "ejs");
+app.use(require("method-override")("X-HTTP-Method-Override"))
 app.use(require("body-parser").urlencoded({ extended: true }));
 app.use(require("cookie-session")({
   name:   COOKIE_NAME,
