@@ -53,7 +53,7 @@ const {
 
 const app = require("express")();
 app.set("view engine", "ejs");
-app.use(require("method-override")("X-HTTP-Method-Override"))
+app.use(require("method-override")("_method"));
 app.use(require("body-parser").urlencoded({ extended: true }));
 app.use(require("cookie-session")({
   name:   COOKIE_NAME,
@@ -317,10 +317,10 @@ app.post("/urls/:shortURL", (req, res) => {
 
 });
 
-// POST /urls/:shortURL/delete removes the specified short URL from the database,
+// DELETE /urls/:shortURL/delete removes the specified short URL from the database,
 //    or shows an error if no one is logged in.
 
-app.post("/urls/:shortURL/delete", (req, res) => {
+app.delete("/urls/:shortURL/delete", (req, res) => {
 
   const user = getCurrentUser(userDB, req);
 
