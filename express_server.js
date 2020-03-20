@@ -26,9 +26,12 @@ const HTTP_STATUS_400_MISSING_EMAIL = "Enter an email address.";
 const HTTP_STATUS_400_MISSING_PW    = "Enter a password.";
 const HTTP_STATUS_400_INVALID_EMAIL = "Email address exists.";
 const HTTP_STATUS_400_INVALID_URL   = "Invalid URL.";
+
 const HTTP_STATUS_403               = "Forbidden.";
 const HTTP_STATUS_403_INVALID_LOGIN = "Invalid username or password.";
+
 const HTTP_STATUS_404               = "Not found.";
+
 const HTTP_STATUS_500               = "Internal server error.";
 
 
@@ -40,7 +43,8 @@ const {
   getCurrentUser,
   getUserByEmail,
   urlForUser,
-  urlsForUser
+  urlsForUser,
+  renderError
 } = require("./helpers");
 
 // Set up server
@@ -330,25 +334,6 @@ app.post("/urls/:shortURL/delete", (req, res) => {
   }
 
 });
-
-
-
-// renderError shows the error page.
-//
-//    users:      Object: List of users, used by getCurrentUser.
-//    req:        Object: Express HTTP request object.
-//    res:        Object: Express HTTP response object.
-//    httpStatus: Number: HTTP status code to set in the response.
-//    errorMsg:   String: Human readable message to display.
-
-const renderError = function(users, req, res, httpStatus, errorMsg) {
-
-  res.status(httpStatus).render("error", {
-    user:     getCurrentUser(users, req),
-    errorMsg: errorMsg
-  });
-
-};
 
 
 

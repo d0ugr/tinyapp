@@ -102,6 +102,23 @@ const urlsForUser = function(urls, userID) {
 
 };
 
+// renderError shows the error page.
+//
+//    users:      Object: List of users, used by getCurrentUser.
+//    req:        Object: Express HTTP request object.
+//    res:        Object: Express HTTP response object.
+//    httpStatus: Number: HTTP status code to set in the response.
+//    errorMsg:   String: Human readable message to display.
+
+const renderError = function(users, req, res, httpStatus, errorMsg) {
+
+  res.status(httpStatus).render("error", {
+    user:     getCurrentUser(users, req),
+    errorMsg: errorMsg
+  });
+
+};
+
 
 
 module.exports = {
@@ -109,7 +126,8 @@ module.exports = {
   getCurrentUser,
   getUserByEmail,
   urlForUser,
-  urlsForUser
+  urlsForUser,
+  renderError
 };
 
 
