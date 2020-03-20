@@ -293,10 +293,10 @@ app.post("/urls", (req, res) => {
 
 });
 
-// POST /urls/:shortURL updates the long URL for the specified short URL,
+// PATCH /urls/:shortURL updates the long URL for the specified short URL,
 //    or shows an error if no one is logged in.
 
-app.post("/urls/:shortURL", (req, res) => {
+app.patch("/urls/:shortURL", (req, res) => {
 
   const user   = getCurrentUser(userDB, req);
   const url    = urlForUser(user, urlDB, req);

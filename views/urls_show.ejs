@@ -29,7 +29,7 @@
 
         <p class="card-title">Short URL: <a href="/u/<%= shortURL %>" target="_blank">tiny.app/u/<%= shortURL %></a>
         <p class="card-title">Long URL: <a href="<%= longURL %>" target="_blank"><%= longURL %></a></p>
-        <form method="POST" action="/urls/<%= shortURL %>">
+        <form method="POST" action="/urls/<%= shortURL %>?_method=PATCH">
           <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text">New long URL</span></div>
             <input type="text" id="newURL" name="newURL" class="form-control" style="min-width: 25em;">
