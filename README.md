@@ -48,6 +48,12 @@ The source code is arranged as follows:
 - cookie-session
 - bcrypt
 
+## Development Dependencies
+
+- Mocha
+- Chai
+- Nodemon
+
 ## Testing
 
 Unit tests can be run with `npm test`.  See the `test` directory for test scripts.
