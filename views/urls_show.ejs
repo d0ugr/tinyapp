@@ -28,14 +28,28 @@
         <h3 class="mb-3">TinyURL Details</h3>
 
         <p class="card-title">Short URL: <a href="/u/<%= shortURL %>" target="_blank">tiny.app/u/<%= shortURL %></a>
-        <p class="card-title">Long URL: <a href="<%= longURL %>" target="_blank"><%= longURL %></a></p>
-        <form method="POST" action="/urls/<%= shortURL %>?_method=PATCH">
+        <p class="card-title">Long URL: <a href="<%= url.longURL %>" target="_blank"><%= url.longURL %></a></p>
+        <form class="mb-3" method="POST" action="/urls/<%= shortURL %>?_method=PATCH">
           <div class="input-group">
             <div class="input-group-prepend"><span class="input-group-text">New long URL</span></div>
             <input type="text" id="newURL" name="newURL" class="form-control" style="min-width: 25em;">
             <button class="btn btn-primary">Submit</button>
           </div>
         </form>
+        <% if (url.visits > 0) { %>
+          <p class="card-title"><b>Total visits: <%= url.visits %></b></p>
+          <p class="card-title">Unique visits:</p>
+          <% for (const visitID in url.uniqueVisits) { %>
+            <% const visit = url.uniqueVisits[visitID] %>
+            <p class="card-title">
+              Visitor <b><%= visitID %></b>
+              visited <b><%= visit.visits %> times</b>,
+              last visit @ <b><%= new Date(visit.timestamp) %></b>
+            </p>
+          <% } %>
+        <% } else { %>
+          <p class="card-title">No visits</p>
+        <% } %>
 
       </div>
 
