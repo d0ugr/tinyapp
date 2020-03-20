@@ -1,18 +1,6 @@
 
 
 
-const userDB = {};
-const urlDB  = {};
-
-// Sample data
-
-// const {
-//   userDB,
-//   urlDB
-// } = require("./sample_data");
-
-
-
 /////////////////
 //  CONSTANTS  //
 /////////////////
@@ -41,6 +29,13 @@ const HTTP_STATUS_500               = "Internal server error.";
 
 
 
+// Initialize "databases"
+
+let userDB = {};
+let urlDB  = {};
+
+
+
 // Import helper functions
 
 const {
@@ -64,12 +59,47 @@ app.use(require("cookie-session")({
   maxAge: COOKIE_MAXAGE
 }));
 const bcrypt = require("bcrypt");
+const fs     = require("fs");
 
 // Main initialization
 
 const args = process.argv.slice(2);
 
 let port = Number(args[0]);
+const userDBFileSpec = args[1];
+const urlDBFileSpec  = args[2];
+
+if (typeof userDBFileSpec === "string") {
+  console.log(`Reading user DB from: ${userDBFileSpec}`);
+  fs.readFile(userDBFileSpec, (error, data) => {
+    if (!error) {
+      try {
+        userDB = JSON.parse(data);
+        console.log("Successfully parsed user DB");
+      } catch (error) {
+        console.log("Error parsing user DB", error);
+      }
+    } else {
+      console.log("Error reading user DB", error);
+    }
+  });
+}
+
+if (typeof urlDBFileSpec === "string") {
+  console.log(`Reading URL DB from:  ${urlDBFileSpec}`);
+  fs.readFile(urlDBFileSpec, (error, data) => {
+    if (!error) {
+      try {
+        urlDB = JSON.parse(data);
+        console.log("Successfully parsed URL DB");
+      } catch (error) {
+        console.log("Error parsing URL DB", error);
+      }
+    } else {
+      console.log("Error reading URL DB", error);
+    }
+  });
+}
 
 if (!Number.isInteger(port)) {
   port = DEFAULT_PORT;
