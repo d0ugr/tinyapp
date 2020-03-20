@@ -31,6 +31,8 @@ Sample user and URL data can be loading from JSON files.  The user data file mus
 
 ## Development Notes
 
+### Directory Structure
+
 The source code is arranged as follows:
 
 ```
@@ -42,7 +44,7 @@ The source code is arranged as follows:
 ./docs             Screenshots
 ```
 
-## Dependencies
+### Dependencies
 
 - Node.js
 - Express
@@ -53,12 +55,12 @@ The source code is arranged as follows:
 - bcrypt
 - fs
 
-## Development Dependencies
+### Development Dependencies
 
 - Mocha
 - Chai
 - Nodemon
 
-## Testing
+### Testing
 
 Unit tests can be run with `npm test`.  See the `test` directory for test scripts.
