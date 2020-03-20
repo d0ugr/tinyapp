@@ -27,7 +27,7 @@ $ npm start [PORT] [USERDB] [URLDB]
 
 The port that TinyApp listens on can be given as the first command line argument.  It otherwise defaults to [port 8080](http://localhost:8080).
 
-Sample user and URL data can be loading from JSON files.  The user data file must be the second command line argument, and the URL data file must be the third.
+By default, the user and URL database objects are empty, and you will have to register a new account before you can use TinyApp.  Sample user and URL data can be loading from JSON files.  The user data file must be the second command line argument, and the URL data file must be the third.  See the `data` directory for sample data files.
 
 ## **Development Notes**
 
