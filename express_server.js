@@ -94,12 +94,17 @@ app.get("/", (req, res) => {
 });
 
 // GET /register shows the new account creation page.
+//    If a user is logged in, it redirects to the URL index page.
 
 app.get("/register", (req, res) => {
 
-  res.render("register", {
-    user: getCurrentUser(userDB, req)
-  });
+  const user = getCurrentUser(userDB, req);
+
+  if (!user) {
+    res.render("register", { user });
+  } else {
+    res.redirect("/urls");
+  }
 
 });
 
@@ -135,13 +140,20 @@ app.post("/register", (req, res) => {
 
 });
 
-// GET /login shows the login page.
+// GET /login shows the login page,
+//    or redirects to the URL index if a user is logged in.
 
 app.get("/login", (req, res) => {
 
-  res.render("login", {
-    user: getCurrentUser(userDB, req)
-  });
+  const user = getCurrentUser(userDB, req);
+
+  if (!user) {
+    res.render("login", {
+      user: getCurrentUser(userDB, req)
+    });
+  } else {
+    res.redirect("/urls");
+  }
 
 });
 
@@ -152,7 +164,9 @@ app.post("/login", (req, res) => {
   const { email, password } = req.body;
   const user = getUserByEmail(userDB, email);
 
-  if (user) {
+  if (!user) {
+    renderError(userDB, req, res, 403, "Invalid username or password.");
+  } else {
     bcrypt.compare(password, user.password, (error, pwMatch) => {
       if (!error) {
         if (pwMatch) {
@@ -166,8 +180,6 @@ app.post("/login", (req, res) => {
         renderError(userDB, req, res, 500, HTTP_STATUS_500);
       }
     });
-  } else {
-    renderError(userDB, req, res, 403, "Invalid username or password.");
   }
 
 });
@@ -178,7 +190,7 @@ app.post("/login", (req, res) => {
 app.post("/logout", (req, res) => {
 
   req.session = null;
-  // Should probably redirect to /login, but this is what the requirements specify:
+  // Should probably redirect straight to /login, but this is what the requirements specify:
   res.redirect("/urls");
 
 });
@@ -190,13 +202,15 @@ app.get("/urls", (req, res) => {
 
   const user = getCurrentUser(userDB, req);
 
-  if (user) {
+  if (!user) {
+    // Should probably redirect to /login, but this is what the requirements specify:
+    renderError(userDB, req, res, 403, HTTP_STATUS_403);
+    // res.redirect("/login");
+  } else {
     res.render("urls_index", {
       user: user,
       urls: urlsForUser(urlDB, user.id)
     });
-  } else {
-    res.redirect("/login");
   }
 
 });
@@ -208,34 +222,12 @@ app.get("/urls/new", (req, res) => {
 
   const user = getCurrentUser(userDB, req);
 
-  if (user) {
+  if (!user) {
+    // Requirements say redirect to /login, which is inconsistent with other routes:
+    // renderError(userDB, req, res, 403, HTTP_STATUS_403);
+    res.redirect("/login");
+  } else {
     res.render("urls_new", { user });
-  } else {
-    res.redirect("/login");
-  }
-
-});
-
-// POST /urls/new creates a new shortened URL,
-//    or redirects to the login page if no one is logged in.
-
-app.post("/urls/new", (req, res) => {
-
-  const user = getCurrentUser(userDB, req);
-
-  if (user) {
-    const longURL = req.body.longURL;
-    if (longURL) {
-      urlDB[generateRandomString(6)] = {
-        longURL: longURL,
-        userID:  user.id
-      };
-      res.redirect("/urls");
-    } else {
-      renderError(userDB, req, res, 400, "Invalid URL.");
-    }
-  } else {
-    res.redirect("/login");
   }
 
 });
@@ -246,43 +238,68 @@ app.post("/urls/new", (req, res) => {
 
 app.get("/urls/:shortURL", (req, res) => {
 
-  const user = getCurrentUser(userDB, req);
+  const user     = getCurrentUser(userDB, req);
+  const shortURL = req.params.shortURL;
+  const url      = urlDB[shortURL];
 
-  if (user) {
-    const shortURL = req.params.shortURL;
-    const url = urlDB[shortURL];
-
-    if (url) {
-      res.render("urls_show", {
-        user:     user,
-        shortURL: shortURL,
-        longURL:  url.longURL
-      });
-    } else {
-      res.redirect("/urls");
-    }
+  if (!user) {
+    // Should probably redirect to /login if not logged in, but this is what the requirements specify:
+    renderError(userDB, req, res, 403, HTTP_STATUS_403);
+    // res.redirect("/login");
+  } else if (!url) {
+    renderError(userDB, req, res, 404, HTTP_STATUS_404);
+  } else if (url.userID !== user.id) {
+    renderError(userDB, req, res, 403, HTTP_STATUS_403);
   } else {
-    res.redirect("/login");
+    res.render("urls_show", {
+      user:     user,
+      shortURL: shortURL,
+      longURL:  url.longURL
+    });
+  }
+
+});
+
+// POST /urls creates a new shortened URL,
+//    or redirects to the login page if no one is logged in.
+
+app.post("/urls", (req, res) => {
+
+  const user    = getCurrentUser(userDB, req);
+  const longURL = req.body.longURL;
+
+  if (!user) {
+    // Should probably redirect to /login if not logged in, but this is what the requirements specify:
+    renderError(userDB, req, res, 403, HTTP_STATUS_403);
+    // res.redirect("/login");
+  } else if (!longURL) {
+    renderError(userDB, req, res, 400, "Invalid URL.");
+  } else {
+    urlDB[generateRandomString(6)] = {
+      longURL: longURL,
+      userID:  user.id
+    };
+    res.redirect("/urls");
   }
 
 });
 
 // POST /urls/:shortURL/update updates the long URL for the specified short URL, or redirects to the login page if no one is logged in.
 
-app.post("/urls/:shortURL/update", (req, res) => {
+app.post("/urls/:shortURL", (req, res) => {
 
   const user = getCurrentUser(userDB, req);
+  const url  = urlForUser(user, urlDB, req);
 
-  if (user) {
-    const url = urlForUser(user, urlDB, req);
-    if (url) {
-      url.longURL = req.body.newURL;
-      res.redirect("/urls");
-    } else {
-      renderError(userDB, req, res, 403, HTTP_STATUS_403);
-    }
+  if (!user) {
+    // Should probably redirect to /login if not logged in, but this is what the requirements specify:
+    renderError(userDB, req, res, 403, HTTP_STATUS_403);
+    // res.redirect("/login");
+  } else if (!url) {
+    renderError(userDB, req, res, 403, HTTP_STATUS_403);
   } else {
-    res.redirect("/login");
+    url.longURL = req.body.newURL;
+    res.redirect("/urls");
   }
 
 });
@@ -294,15 +311,15 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 
   const user = getCurrentUser(userDB, req);
 
-  if (user) {
-    if (urlForUser(user, urlDB, req)) {
-      delete urlDB[req.params.shortURL];
-      res.redirect("/urls");
-    } else {
-      renderError(userDB, req, res, 403, HTTP_STATUS_403);
-    }
+  if (!user) {
+    // Should probably redirect to /login if not logged in, but this is what the requirements specify:
+    renderError(userDB, req, res, 403, HTTP_STATUS_403);
+    // res.redirect("/login");
+  } else if (!urlForUser(user, urlDB, req)) {
+    renderError(userDB, req, res, 403, HTTP_STATUS_403);
   } else {
-    res.redirect("/login");
+    delete urlDB[req.params.shortURL];
+    res.redirect("/urls");
   }
 
 });
