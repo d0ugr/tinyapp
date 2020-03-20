@@ -1,34 +1,48 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
   <title>TinyApp - Details for <%= shortURL %></title>
+
 </head>
 
 <body>
 
   <%- include('partials/_header') %>
 
-  <div class="card text-center">
+  <main style="margin: 1em;">
+    <div class="card text-center">
 
-    <div class="card-header"></div>
+      <div class="card-header"></div>
 
-    <div class="card-body mx-auto">
-      <p class="card-title">Short URL: <a href="/u/<%= shortURL %>" target="_blank">tiny.app/u/<%= shortURL %></a>
-      <p class="card-title">Long URL: <a href="<%= longURL %>" target="_blank"><%= longURL %></a></p>
-      <form method="POST" action="/urls/<%= shortURL %>">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend"><span class="input-group-text">New long URL</span></div>
-          <input type="text" id="newURL" name="newURL" class="form-control" style="min-width: 25em;">
-          <button class="btn btn-primary">Submit</button>
-        </div>
-      </form>
+      <div class="card-body mx-auto">
+
+        <h3 class="mb-3">TinyURL Details</h3>
+
+        <p class="card-title">Short URL: <a href="/u/<%= shortURL %>" target="_blank">tiny.app/u/<%= shortURL %></a>
+        <p class="card-title">Long URL: <a href="<%= longURL %>" target="_blank"><%= longURL %></a></p>
+        <form method="POST" action="/urls/<%= shortURL %>">
+          <div class="input-group">
+            <div class="input-group-prepend"><span class="input-group-text">New long URL</span></div>
+            <input type="text" id="newURL" name="newURL" class="form-control" style="min-width: 25em;">
+            <button class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+
+      </div>
+
+      <div class="card-footer"></div>
+
     </div>
-
-    <div class="card-footer"></div>
-
-  </div>
+  </main>
 
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
