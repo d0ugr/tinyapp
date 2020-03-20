@@ -131,8 +131,7 @@ app.get("/u/:shortURL", (req, res) => {
       url.uniqueVisits = {};
     }
     const uniqueVisit = url.uniqueVisits[req.session.visitorID];
-    if (req.session.visitorID && uniqueVisit) {
-      const uniqueVisit = url.uniqueVisits[req.session.visitorID];
+    if (uniqueVisit) {
       uniqueVisit.visits++;
       uniqueVisit.timestamp = new Date().getTime();
     } else {
