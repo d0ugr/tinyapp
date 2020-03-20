@@ -29,6 +29,16 @@ const HTTP_STATUS_500 = "Internal server error";
 
 
 
+// Import helper functions
+
+const {
+  generateRandomString,
+  getCurrentUser,
+  getUserByEmail,
+  urlForUser,
+  urlsForUser
+} = require("./helpers");
+
 // Set up server
 
 const app = require("express")();
@@ -41,17 +51,7 @@ app.use(require("cookie-session")({
 }));
 const bcrypt = require("bcrypt");
 
-const {
-  generateRandomString,
-  getCurrentUser,
-  getUserByEmail,
-  urlForUser,
-  urlsForUser
-} = require("./helpers");
-
-
-
-// Main setup
+// Main initialization
 
 const args = process.argv.slice(2);
 
@@ -89,11 +89,7 @@ app.get("/u/:shortURL", (req, res) => {
 
 app.get("/", (req, res) => {
 
-  if (getCurrentUser(userDB, req)) {
-    res.redirect("/urls");
-  } else {
-    res.redirect("/login");
-  }
+  res.redirect(getCurrentUser(userDB, req) ? "/urls" :  "/login");
 
 });
 
