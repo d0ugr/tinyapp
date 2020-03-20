@@ -22,10 +22,14 @@ const COOKIE_MAXAGE = 24 * 60 * 60 * 1000;
 
 const SALT_ROUNDS = 10;
 
-//const HTTP_STATUS_400 = "Unauthorized.";
-const HTTP_STATUS_403 = "Forbidden.";
-const HTTP_STATUS_404 = "Not found";
-const HTTP_STATUS_500 = "Internal server error";
+const HTTP_STATUS_400_MISSING_EMAIL = "Enter an email address.";
+const HTTP_STATUS_400_MISSING_PW    = "Enter a password.";
+const HTTP_STATUS_400_INVALID_EMAIL = "Email address exists.";
+const HTTP_STATUS_400_INVALID_URL   = "Invalid URL.";
+const HTTP_STATUS_403               = "Forbidden.";
+const HTTP_STATUS_403_INVALID_LOGIN = "Invalid username or password.";
+const HTTP_STATUS_404               = "Not found.";
+const HTTP_STATUS_500               = "Internal server error.";
 
 
 
@@ -115,11 +119,11 @@ app.post("/register", (req, res) => {
   const { email, password } = req.body;
 
   if (!email) {
-    renderError(userDB, req, res, 400, "Enter an email address.");
+    renderError(userDB, req, res, 400, HTTP_STATUS_400_MISSING_EMAIL);
   } else if (!password) {
-    renderError(userDB, req, res, 400, "Enter a password.");
+    renderError(userDB, req, res, 400, HTTP_STATUS_400_MISSING_PW);
   } else if (getUserByEmail(userDB, email)) {
-    renderError(userDB, req, res, 400, "Email address exists.");
+    renderError(userDB, req, res, 400, HTTP_STATUS_400_INVALID_EMAIL);
   } else {
     bcrypt.hash(password, SALT_ROUNDS, (error, hashedPW) => {
       if (!error) {
@@ -165,7 +169,7 @@ app.post("/login", (req, res) => {
   const user = getUserByEmail(userDB, email);
 
   if (!user) {
-    renderError(userDB, req, res, 403, "Invalid username or password.");
+    renderError(userDB, req, res, 403, HTTP_STATUS_403_INVALID_LOGIN);
   } else {
     bcrypt.compare(password, user.password, (error, pwMatch) => {
       if (!error) {
@@ -173,7 +177,7 @@ app.post("/login", (req, res) => {
           req.session.userId = user.id;
           res.redirect("/urls");
         } else {
-          renderError(userDB, req, res, 403, "Invalid username or password.");
+          renderError(userDB, req, res, 403, HTTP_STATUS_403_INVALID_LOGIN);
         }
       } else {
         console.log(error);
@@ -273,7 +277,7 @@ app.post("/urls", (req, res) => {
     renderError(userDB, req, res, 403, HTTP_STATUS_403);
     // res.redirect("/login");
   } else if (!longURL) {
-    renderError(userDB, req, res, 400, "Invalid URL.");
+    renderError(userDB, req, res, 400, HTTP_STATUS_400_INVALID_URL);
   } else {
     urlDB[generateRandomString(6)] = {
       longURL: longURL,
@@ -288,8 +292,9 @@ app.post("/urls", (req, res) => {
 
 app.post("/urls/:shortURL", (req, res) => {
 
-  const user = getCurrentUser(userDB, req);
-  const url  = urlForUser(user, urlDB, req);
+  const user   = getCurrentUser(userDB, req);
+  const url    = urlForUser(user, urlDB, req);
+  const newURL = req.body.newURL;
 
   if (!user) {
     // Should probably redirect to /login if not logged in, but this is what the requirements specify:
@@ -297,8 +302,10 @@ app.post("/urls/:shortURL", (req, res) => {
     // res.redirect("/login");
   } else if (!url) {
     renderError(userDB, req, res, 403, HTTP_STATUS_403);
+  } else if (!newURL) {
+    renderError(userDB, req, res, 400, HTTP_STATUS_400_INVALID_URL);
   } else {
-    url.longURL = req.body.newURL;
+    url.longURL = newURL;
     res.redirect("/urls");
   }
 
