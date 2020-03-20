@@ -22,10 +22,12 @@ Then clone, setup, and run TinyApp:
 $ git clone https://github.com/d0ugr/tinyapp
 $ cd tinyapp
 $ npm install
-$ npm start [PORT]
+$ npm start [PORT] [USERDB] [URLDB]
 ```
 
 The port that TinyApp listens on can be given as the first command line argument.  It otherwise defaults to [port 8080](http://localhost:8080).
+
+Sample user and URL data can be loading from JSON files.  The user data file must be the second command line argument, and the URL data file must be the third.
 
 ## Development Notes
 
@@ -35,6 +37,7 @@ The source code is arranged as follows:
 ./                 Main project directory including JS files
 ./views            EJS page templates
 ./views/partials   Partial HTML templates used by views
+./data             Sample data files
 ./test             Unit tests
 ./docs             Screenshots
 ```
@@ -48,6 +51,7 @@ The source code is arranged as follows:
 - body-parser
 - cookie-session
 - bcrypt
+- fs
 
 ## Development Dependencies
 
