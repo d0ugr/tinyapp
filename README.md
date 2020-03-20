@@ -33,7 +33,7 @@ Sample user and URL data can be loading from JSON files.  The user data file mus
 
 ### **Directory Structure**
 
-The source code is arranged as follows:
+The project files are arranged as follows:
 
 ```
 ./                 Main project directory including JS files
@@ -46,9 +46,10 @@ The source code is arranged as follows:
 
 ### **Dependencies**
 
-- Node.js
-- Express
-- EJS
+TinyApp requires [Node.js](https://nodejs.org) and the following NPM packages are used:
+
+- express
+- ejs
 - method-override
 - body-parser
 - cookie-session
@@ -57,9 +58,11 @@ The source code is arranged as follows:
 
 ### **Development Dependencies**
 
-- Mocha
-- Chai
-- Nodemon
+The following NPM packages are used for development:
+
+- mocha
+- chai
+- nodemon
 
 ### **Testing**
 
