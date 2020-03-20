@@ -89,6 +89,7 @@ app.get("/u/:shortURL", (req, res) => {
   const url = urlDB[req.params.shortURL];
 
   if (url) {
+    url.visits++;
     res.redirect(url.longURL);
   } else {
     renderError(userDB, req, res, 404, HTTP_STATUS_404);
