@@ -95,7 +95,8 @@ app.get("/u/:shortURL", (req, res) => {
 
 });
 
-// GET / redirects to the URL index for the current user, or the login page if no one is logged in.
+// GET / redirects to the URL index for the current user,
+//    or the login page if no one is logged in.
 
 app.get("/", (req, res) => {
 
