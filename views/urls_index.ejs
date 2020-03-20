@@ -6,7 +6,7 @@
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-  <title>TinyApp</title>
+  <title>TinyApp - URL Index</title>
 </head>
 <body>
   <%- include('partials/_header') %>
@@ -26,7 +26,7 @@
         <tr>
           <td class="text-muted">Nothing to show</td>
         </tr>
-        <% } else {%>
+        <% } else { %>
         <%   for (const shortURL in urls) { %>
         <tr>
           <td><a href="/u/<%= shortURL %>" target="_blank"><%= shortURL %></a></td>
