@@ -1,10 +1,10 @@
-# TinyApp
+# **TinyApp**
 
 TinyApp is a full stack web application built with [Node.js](https://nodejs.org) and [Express](https://expressjs.com) that allows users to manage shortened long URLs (much like bit.ly).  Users can log in to an existing account, or create a new one.  Basic URL visitor statistics are kept and can be viewed, including total visits, and a list of unique visits (tracked by session cookie) which includes the number of visits and the timestamp of the last visit.
 
 TinyApp is not suitable for production use and is release to the public domain for demonstration and educational purposes.
 
-## Screenshots
+## **Screenshots**
 
 TinyApp is beautiful:
 
@@ -12,7 +12,7 @@ TinyApp is beautiful:
 !["URL index"](docs/tinyapp-screenshot-02-url-index.png)
 !["URL details"](docs/tinyapp-screenshot-03-url-details.png)
 
-## Getting Started
+## **Getting Started**
 
 Install Node.js from your [package manager](https://nodejs.org/en/download/package-manager/), or [download](https://nodejs.org/en/download/) binaries or source code.
 
@@ -29,9 +29,9 @@ The port that TinyApp listens on can be given as the first command line argument
 
 Sample user and URL data can be loading from JSON files.  The user data file must be the second command line argument, and the URL data file must be the third.
 
-## Development Notes
+## **Development Notes**
 
-### Directory Structure
+### **Directory Structure**
 
 The source code is arranged as follows:
 
@@ -44,7 +44,7 @@ The source code is arranged as follows:
 ./docs             Screenshots
 ```
 
-### Dependencies
+### **Dependencies**
 
 - Node.js
 - Express
@@ -55,12 +55,12 @@ The source code is arranged as follows:
 - bcrypt
 - fs
 
-### Development Dependencies
+### **Development Dependencies**
 
 - Mocha
 - Chai
 - Nodemon
 
-### Testing
+### **Testing**
 
 Unit tests can be run with `npm test`.  See the `test` directory for test scripts.
