@@ -39,7 +39,7 @@ const urlDB = {
 //  CONSTANTS  //
 /////////////////
 
-const PORT = 7734;
+const DEFAULT_PORT = 7734;
 
 const COOKIE_NAME   = "tinyapp-session"
 const COOKIE_SECRET = "totally-secret-impossible-to-break-cookie-secret";
@@ -72,11 +72,18 @@ const {
   urlsForUser
 } = require("./helpers");
 
-app.listen(PORT, () => {
 
-  console.log(`TinyApp listening on port ${PORT}`);
 
-});
+// Main setup
+
+const args = process.argv.slice(2);
+
+let port = Number(args[0]);
+
+if (!Number.isInteger(port)) {
+  port = DEFAULT_PORT;
+}
+app.listen(port, () => console.log(`TinyApp listening on port ${port}`));
 
 
 
