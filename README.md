@@ -32,10 +32,10 @@ The port that TinyApp listens on can be given as the first command line argument
 The source code is arranged as follows:
 
 ```
-./                 Main project directory
+./                 Main project directory including JS files
 ./views            EJS page templates
-./views/partials   Partials used by views
-./tests            Unit tests
+./views/partials   Partial HTML templates used by views
+./test             Unit tests
 ./docs             Screenshots
 ```
 

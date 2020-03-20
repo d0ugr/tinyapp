@@ -2,7 +2,7 @@
   "name": "tinyapp",
   "version": "1.0.0",
   "description": "Yet another URL shortener",
-  "main": "app.js",
+  "main": "express_server.js",
   "scripts": {
     "start": "./node_modules/.bin/nodemon -L express_server.js",
     "test": "mocha"
