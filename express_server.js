@@ -1,6 +1,8 @@
 
 
 
+// Sample data
+
 const {
   userDB,
   urlDB
@@ -26,6 +28,8 @@ const HTTP_STATUS_404 = "Not found";
 const HTTP_STATUS_500 = "Internal server error";
 
 
+
+// Set up server
 
 const app = require("express")();
 app.set("view engine", "ejs");
