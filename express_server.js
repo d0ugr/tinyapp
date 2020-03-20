@@ -1,13 +1,13 @@
 
 
-/////////////////
-//  TEST DATA  //
-/////////////////
+///////////////////
+//  SAMPLE DATA  //
+///////////////////
 
 const userDB = {
-  "420": {
-    id:       "420",
-    email:    "4@2.0",
+  "test": {
+    id:       "test",
+    email:    "t@e.st",
     password: "$2b$10$6rhOxxh7V0U9Z/spzHOBj.kuYhv5rXmigNVMPT82eg3Wnp28Q8EuW" // 123
   },
   "userRandomID": {
@@ -25,7 +25,7 @@ const userDB = {
 const urlDB = {
   "b2xVn2": {
     longURL: "http://www.lighthouselabs.ca",
-    userID:  "420"
+    userID:  "test"
   },
   "9sm5xK": {
     longURL: "http://www.google.com",
@@ -198,6 +198,9 @@ app.post("/login", (req, res) => {
   }
 
 });
+
+// POST /logout clears the session cookies and redirects to /urls,
+//    which will in turn redirect to /login.
 
 app.post("/logout", (req, res) => {
 

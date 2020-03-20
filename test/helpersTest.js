@@ -14,9 +14,9 @@ const {
 const ALPHANUMERIC = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 const testUsers = {
-  "420": {
-    id:       "420",
-    email:    "4@2.0",
+  "test": {
+    id:       "test",
+    email:    "t@e.st",
     password: "$2b$10$6rhOxxh7V0U9Z/spzHOBj.kuYhv5rXmigNVMPT82eg3Wnp28Q8EuW" // 123
   },
   "userRandomID": {
@@ -34,7 +34,7 @@ const testUsers = {
 const testURLs = {
   "b2xVn2": {
     longURL: "http://www.lighthouselabs.ca",
-    userID:  "420"
+    userID:  "test"
   },
   "9sm5xK": {
     longURL: "http://www.google.com",
@@ -161,8 +161,8 @@ describe("urlForUser(urls, req)", function() {
 
   // Valid request
 
-  it("should return valid url object with valid user and request: \"420\", \"b2xVn2\"", function() {
-    const user = { id: "420" };
+  it("should return valid url object with valid user and request: \"test\", \"b2xVn2\"", function() {
+    const user = { id: "test" };
     const req  = { params: { shortURL: "b2xVn2" } };
     const url  = urlForUser(user, testURLs, req);
     assert.strictEqual(url.longURL, "http://www.lighthouselabs.ca");
@@ -208,8 +208,8 @@ describe("urlForUser(urls, req)", function() {
     const url  = urlForUser(user, testURLs, req);
     assert.isUndefined(url);
   });
-  it("should return undefined with valid user and invalid request: \"420\", \"abc123\"", function() {
-    const user = { id: "420" };
+  it("should return undefined with valid user and invalid request: \"test\", \"abc123\"", function() {
+    const user = { id: "test" };
     const req  = { params: { shortURL: "abc123" } };
     const url  = urlForUser(user, testURLs, req);
     assert.isUndefined(url);
@@ -251,11 +251,11 @@ describe("urlsForUser(urls, userID)", function() {
 
   // Valid URLs and user ID
 
-  it("should return valid URLs object with valid user ID: \"420\"", function() {
-    const urls = urlsForUser(testURLs, "420");
+  it("should return valid URLs object with valid user ID: \"test\"", function() {
+    const urls = urlsForUser(testURLs, "test");
     assert.strictEqual(urls["b2xVn2"].longURL, "http://www.lighthouselabs.ca");
   });
-  it("should return valid URLs object with valid user ID: \"420\"", function() {
+  it("should return valid URLs object with valid user ID: \"test\"", function() {
     const urls = urlsForUser(testURLs, "userRandomID");
     assert.strictEqual(urls["9sm5xK"].longURL, "http://www.google.com");
   });
@@ -271,7 +271,7 @@ describe("urlsForUser(urls, userID)", function() {
     assert.isUndefined(urls);
   });
   it("should return undefined with missing arguments", function() {
-    const urls = urlsForUser("420");
+    const urls = urlsForUser("test");
     assert.isUndefined(urls);
   });
   it("should return undefined with invalid URLs: string", function() {
