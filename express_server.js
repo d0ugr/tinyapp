@@ -83,13 +83,20 @@ app.listen(port, () => console.log(`TinyApp listening on port ${port}`));
 
 // GET /u/:shortURL redirects to the long URL, or 404 if it doesn't exist.
 //    It is first for performance, since it will be the most accessed in the real world.
+//    Visitor statistics are created/updated.
+//    Unique visitors are tracked by an ID stored in the session cookie.
 
 app.get("/u/:shortURL", (req, res) => {
 
   const url = urlDB[req.params.shortURL];
 
   if (url) {
+    // Update the total visit count:
     url.visits++;
+    // Create or update the unique visitor data:
+    if (!url.uniqueVisits) {
+      url.uniqueVisits = {};
+    }
     const uniqueVisit = url.uniqueVisits[req.session.visitorID];
     if (req.session.visitorID && uniqueVisit) {
       const uniqueVisit = url.uniqueVisits[req.session.visitorID];
@@ -103,6 +110,7 @@ app.get("/u/:shortURL", (req, res) => {
       };
       req.session.visitorID = newVisitorID;
     }
+    // Redirect to the long URL:
     res.redirect(url.longURL);
   } else {
     renderError(userDB, req, res, 404, HTTP_STATUS_404);
