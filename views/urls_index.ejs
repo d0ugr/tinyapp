@@ -37,7 +37,7 @@
         <% } else { %>
         <%   for (const shortURL in urls) { %>
         <tr>
-          <td><a href="/u/<%= shortURL %>" target="_blank"><%= shortURL %></a></td>
+          <td><a href="/u/<%= shortURL %>" target="_blank">tiny.app/u/<%= shortURL %></a></td>
           <td><a href="<%= urls[shortURL].longURL %>" target="_blank"><%= urls[shortURL].longURL %></a></td>
           <td><form method="GET" action="/urls/<%= shortURL %>"><button class="btn btn-outline-primary">Edit</button></form></td>
           <td><form method="POST" action="/urls/<%= shortURL %>/delete"><button class="btn btn-outline-danger">Delete</button></form></td>
