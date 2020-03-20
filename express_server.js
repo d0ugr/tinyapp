@@ -1,12 +1,15 @@
 
 
 
+const userDB = {};
+const urlDB  = {};
+
 // Sample data
 
-const {
-  userDB,
-  urlDB
-} = require("./sample_data");
+// const {
+//   userDB,
+//   urlDB
+// } = require("./sample_data");
 
 
 
