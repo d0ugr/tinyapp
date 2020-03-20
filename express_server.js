@@ -130,16 +130,19 @@ app.get("/u/:shortURL", (req, res) => {
     if (!url.uniqueVisits) {
       url.uniqueVisits = {};
     }
+    // Update an existing visitor:
     const uniqueVisit = url.uniqueVisits[req.session.visitorID];
     if (uniqueVisit) {
       uniqueVisit.visits++;
       uniqueVisit.timestamp = new Date().getTime();
+    // Create a new visitor:
     } else {
       const newVisitorID = generateRandomString(ID_STRING_LENGTH);
       url.uniqueVisits[newVisitorID] = {
         visits:    1,
         timestamp: new Date().getTime()
       };
+      // Save the visitor ID in the session cookie:
       req.session.visitorID = newVisitorID;
     }
     // Redirect to the long URL:
