@@ -36,11 +36,11 @@ npm run tinyapp_sample
 
 Then open http://localhost:8080 in your browser and log in with one of the following:
 
-| Username          | Password        |
-|:------------------|:----------------|
-| t@e.st            | 123             |
-| user@example.com  | 123             |
-| user2@example.com | dishwasher-funk |
+| Username                       | Password        |
+|:-------------------------------|:----------------|
+| t<span>@e.st</span>            | 123             |
+| user<span>@example.com</span>  | 123             |
+| user2<span>@example.com</span> | dishwasher-funk |
 
 To start on port 8080 with empty databases:
 
