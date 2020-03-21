@@ -5,6 +5,10 @@
   "main": "express_server.js",
   "scripts": {
     "start": "./node_modules/.bin/nodemon -L express_server.js",
+    "tinyapp_dev": "./node_modules/.bin/nodemon -L express_server.js",
+    "tinyapp_dev_sample": "./node_modules/.bin/nodemon -L express_server.js 8080 data/user_db.json data/url_db.json",
+    "tinyapp": "node express_server.js",
+    "tinyapp_sample": "node express_server.js 8080 data/user_db.json data/url_db.json",
     "test": "mocha"
   },
   "repository": {
