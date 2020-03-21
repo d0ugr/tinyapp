@@ -18,7 +18,7 @@ TinyApp is beautiful:
 
 Install Node.js from your [package manager](https://nodejs.org/en/download/package-manager/), or [download](https://nodejs.org/en/download/) binaries (for fun) or source code (for maximum fun).
 
-Then clone, setup, and run TinyApp:
+Then execute the following to set up TinyApp:
 
 ```
 git clone https://github.com/d0ugr/tinyapp
